@@ -1,3 +1,8 @@
+---
+name: CrucialInstaller
+description: Generates Windows installer and uninstaller AutoIt scripts. Use when asked to create an installer, setup wizard, or uninstaller for any project.
+---
+
 # CrucialInstaller - AutoIt Installer Generation Skill
 
 ## Description
