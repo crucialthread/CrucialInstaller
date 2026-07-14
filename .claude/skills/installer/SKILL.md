@@ -206,7 +206,7 @@ All placeholders use `{{PLACEHOLDER_NAME}}` syntax. Replace every placeholder be
 ## Installer Archetypes
 
 ### Simple installer
-Single installation mode, fixed page flow, finish message is always the same. Use when there is only one way to install the product. Reference: AutoIt Test Framework installer.
+Single installation mode, fixed page flow, finish message is always the same. Use when there is only one way to install the product.
 
 **Page structure:**
 1. Welcome
@@ -215,7 +215,7 @@ Single installation mode, fixed page flow, finish message is always the same. Us
 4. Progress + Finish (combined - finish content injected into the same page after install completes)
 
 ### Multi-mode installer
-User selects what to install on a dedicated page. Page routing, step count, install steps, ready page content, and finish page content all vary by mode. Use when the product offers meaningful installation choices (e.g. Full vs Lite, Core vs Tools Only). Reference: AutoIt TryCatch Solution installer.
+User selects what to install on a dedicated page. Page routing, step count, install steps, ready page content, and finish page content all vary by mode. Use when the product offers meaningful installation choices (e.g. Full vs Lite, Core vs Tools Only).
 
 **Page structure:**
 1. Welcome
