@@ -2,13 +2,17 @@
 
 ## Description
 
-Generates complete AutoIt installer and uninstaller scripts (`.au3` files) following the CrucialInstaller conventions. The generated scripts are compiled by the developer with Aut2Exe into self-contained `.exe` files. The installer can install anything - applications, libraries, tools, drivers, configuration - it just happens to be written in AutoIt.
+Generates complete AutoIt installer and uninstaller scripts (`.au3` files) following the CrucialInstaller conventions. The generated scripts are compiled by the developer with Aut2Exe into self-contained `.exe` files. The installer can install anything - applications, libraries, tools, drivers, configuration.
+
+Supports both interactive mode (guided workflow with user confirmation) and agent mode (autonomous generation with assumptions log, no user interaction required).
 
 Use this skill when asked to:
 - "generate an installer", "create a setup wizard", "build an installer script"
 - "create an installer for..."
 - "use CrucialInstaller"
 - "write an installer and uninstaller for..."
+- "use CrucialInstaller in agent mode for..."
+- "autonomously generate an installer for..."
 
 ---
 
@@ -144,7 +148,7 @@ Assumptions made during agent mode generation:
 
 ## Template System
 
-Templates define the exact GUI conventions, layout constants, and structural patterns. Always read both templates before generating any files. Never reproduce the boilerplate from memory.
+Templates define the exact GUI conventions, layout constants, and structural patterns. Never reproduce the boilerplate from memory when templates are available. In agent mode, if templates cannot be loaded from any source, generation from built-in knowledge is acceptable as a last resort - see error handling below.
 
 ### Loading templates
 
@@ -161,25 +165,33 @@ Load templates in this order:
    - `https://raw.githubusercontent.com/crucialthread/CrucialInstaller/main/templates/installer.au3`
    - `https://raw.githubusercontent.com/crucialthread/CrucialInstaller/main/templates/uninstaller.au3`
 
-4. **Error** - if neither local nor online templates can be loaded, do not proceed. Inform the user and ask them to provide the path manually:
+4. **Error** - if neither local nor online templates can be loaded:
 
-```
-I was unable to load the CrucialInstaller templates. This means I cannot
-generate the installer scripts reliably.
+   **Interactive mode:** Do not proceed. Inform the user and ask them to provide the path manually:
 
-What I tried:
-  - %USERPROFILE%\.claude\skills\installer\templates\ - not found
-  - templates\ alongside SKILL.md - not found
-  - Online: https://raw.githubusercontent.com/crucialthread/CrucialInstaller/main/templates/ - could not fetch
+   ```
+   I was unable to load the CrucialInstaller templates. This means I cannot
+   generate the installer scripts reliably.
 
-To resolve this, you can:
-  - Provide the path to the templates folder and I will try to load them from there
-  - Ensure the templates/ folder exists at %USERPROFILE%\.claude\skills\installer\templates\
-  - Check your internet connection and try again
-  - Visit https://github.com/crucialthread/CrucialInstaller to get the templates manually
-```
+   What I tried:
+     - %USERPROFILE%\.claude\skills\installer\templates\ - not found
+     - templates\ alongside SKILL.md - not found
+     - Online: https://raw.githubusercontent.com/crucialthread/CrucialInstaller/main/templates/ - could not fetch
 
-If the user provides a path, attempt to load the templates from that location. If successful, proceed with the guided workflow. If still not found, show the error again with the new path included in "What I tried".
+   To resolve this, you can:
+     - Provide the path to the templates folder and I will try to load them from there
+     - Ensure the templates/ folder exists at %USERPROFILE%\.claude\skills\installer\templates\
+     - Check your internet connection and try again
+     - Visit https://github.com/crucialthread/CrucialInstaller to get the templates manually
+   ```
+
+   If the user provides a path, attempt to load the templates from that location. If successful, proceed with the guided workflow. If still not found, show the error again with the new path included in "What I tried".
+
+   **Agent mode:** Proceed with generation without templates, relying on built-in knowledge of the CrucialInstaller conventions. Include the following in the assumptions log after generation:
+
+   ```
+   - Templates: could not be loaded from any source (local or online). Scripts were generated from built-in knowledge of CrucialInstaller conventions. Results may differ from the latest templates - verify output before compiling.
+   ```
 
 ### Placeholder syntax:
 All placeholders use `{{PLACEHOLDER_NAME}}` syntax. Replace every placeholder before writing output files. Never leave any `{{PLACEHOLDER}}` unreplaced.
@@ -404,7 +416,7 @@ Both go to the output directory. After writing, remind the user:
 
 ## Never Do
 
-- Never skip the confirmation summary before generating
+- In interactive mode, never skip the confirmation summary before generating, wait for explicit confirmation before proceeding. In agent mode, output the summary and proceed immediately without waiting.
 - Never ask about implementation details the user would not understand
 - Never leave any `{{PLACEHOLDER}}` unreplaced in output files
 - Never put conditionally-visible controls inside a page array - use standalone variables
