@@ -10,11 +10,7 @@ The result is a professional wizard-style installer with a clean GUI, progress t
 
 ## Installation
 
-### Via Claude Desktop UI
-
-Download the `SKILL.md` file from this repository, then go to Settings, select Skills from the left menu, click Add at the top right, and choose Upload a Skill. Select the downloaded `SKILL.md` file. The skill becomes available in both Claude Code and Cowork automatically.
-
-### Manual
+### Manual (Recommended)
 
 Copy the `.claude/skills/installer/` folder and the `templates/` folder to your skills directory:
 
@@ -24,6 +20,10 @@ Copy the `.claude/skills/installer/` folder and the `templates/` folder to your 
   > Note: the generated scripts are Windows-only and must be compiled on a Windows machine. Using this skill on macOS/Linux is fine - just transfer the generated `.au3` files to a Windows machine to compile them.
 
 The skill becomes available in both Claude Code and Cowork automatically.
+
+### Via Claude Desktop UI
+
+Download the `SKILL.md` file from this repository, then go to Settings, select Skills from the left menu, click Add at the top right, and choose Upload a Skill. Select the downloaded `SKILL.md` file. The skill becomes available in both Claude Code and Cowork automatically.
 
 ## Usage
 
