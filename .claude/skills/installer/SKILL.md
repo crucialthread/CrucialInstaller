@@ -16,17 +16,34 @@ Use this skill when asked to:
 
 Always follow this workflow in order. Never skip to generation without completing discovery, inference, and confirmation first.
 
+### Agent Mode Detection
+
+Before starting the workflow, check if the request signals autonomous/agent mode. Agent mode is active when the initial request contains any of: `agent mode`, `autonomous`, `no user interaction`, or is clearly coming from an automated pipeline with no human present.
+
+In agent mode: skip asking questions, make reasonable assumptions, skip waiting for confirmation, and output an assumptions log after generation.
+
+In interactive mode (default): follow the full guided workflow with questions and confirmation.
+
 ### Step 1 - Discover
 
-Ask the user for the project folder path if not already provided. Then scan the folder:
+Ask the user for the project folder path or public GitHub repository URL if not already provided. Then scan the project:
 
+**If a local folder path is provided:**
 - List all files and subfolders
-- Identify candidate installable files (compiled outputs, libraries, docs, assets)
-- Look for existing version numbers in source files, README, or any manifest
-- Look for existing product name in README, source headers, or folder name
-- Identify whether there are multiple categories of installable content that might suggest installation modes
-- Check for documentation files (CHM, PDF, HTML)
-- Check for existing registry constants or installer scripts that reveal the intended structure
+- Read relevant files directly from disk
+
+**If a public GitHub repository URL is provided:**
+- Fetch the repository file tree from the GitHub API: `https://api.github.com/repos/{owner}/{repo}/git/trees/HEAD?recursive=1`
+- Fetch the raw content of relevant files using: `https://raw.githubusercontent.com/{owner}/{repo}/main/{path}`
+- If `main` branch returns 404, try `master` instead
+
+**In both cases, look for:**
+- Candidate installable files (compiled outputs, libraries, docs, assets)
+- Existing version numbers in source files, README, or any manifest
+- Existing product name in README, source headers, or folder name
+- Multiple categories of installable content that might suggest installation modes
+- Documentation files (CHM, PDF, HTML)
+- Existing registry constants or installer scripts that reveal the intended structure
 
 Do this silently and efficiently. Do not narrate the scan step by step.
 
@@ -47,7 +64,7 @@ Keep a record of what was inferred vs what still needs to be asked.
 
 ### Step 3 - Ask
 
-Ask only what could not be inferred. Ask one topic at a time in plain language - not in technical installer terms. Never ask about implementation details the user would not understand or care about.
+**Interactive mode:** Ask only what could not be inferred. Ask one topic at a time in plain language - not in technical installer terms. Never ask about implementation details the user would not understand or care about.
 
 Things typically needing confirmation or input:
 - Author name
@@ -62,9 +79,16 @@ Things to never ask:
 - Page count or page structure - the SKILL decides this
 - Any AutoIt-specific implementation detail
 
+**Agent mode:** Skip asking entirely. Make reasonable assumptions for anything that could not be inferred:
+- Author → `"Unknown"` if not found anywhere in the project
+- Install mode → Simple installer if unclear from project structure
+- Install path → `C:\Program Files\ProductName\`
+- Open documentation checkbox → yes if a CHM or doc file is being installed, no otherwise
+- Upgrade detection → always include
+
 ### Step 4 - Summary
 
-Before generating any code, present a clear confirmation summary:
+**Interactive mode:** Present a clear confirmation summary and wait for explicit confirmation before generating. If the user corrects anything, update the summary and re-present before generating:
 
 ```
 Here is what I will generate - please confirm or correct anything before I proceed:
@@ -99,21 +123,63 @@ Output files:
 Shall I generate these?
 ```
 
-Wait for explicit confirmation. If the user corrects anything, update the summary and re-present before generating.
+**Agent mode:** Output the same summary but replace "Shall I generate these?" with "Proceeding with generation based on the above." and continue immediately to Step 5 without waiting.
 
 ### Step 5 - Generate
 
-Only after explicit confirmation, generate both files using the templates. Write files to disk - never output them inline in chat.
+Only after explicit confirmation (interactive mode) or immediately after the summary (agent mode), generate both files using the templates. Always prefer writing files to disk. If file generation is not possible (e.g. running in Claude Chat) or the user explicitly requests inline output, inform the user that the scripts will be generated inline and ask for their confirmation before proceeding.
+
+**Agent mode only:** after generation, output a structured assumptions log:
+
+```
+Assumptions made during agent mode generation:
+  - Author: not found in project, defaulted to "Unknown"
+  - Install mode: inferred as Simple from single installable component
+  - Install path: defaulted to C:\Program Files\ProductName\
+  - Open documentation: defaulted to Yes (CHM file detected)
+  - [any other assumption made]
+```
 
 ---
 
 ## Template System
 
-Templates live in `templates/` relative to this skill. Always read both templates before generating any files. Never reproduce the boilerplate from memory - the templates define the exact GUI conventions, layout constants, and structural patterns.
+Templates define the exact GUI conventions, layout constants, and structural patterns. Always read both templates before generating any files. Never reproduce the boilerplate from memory.
 
-### Templates to read:
-- `templates/installer.au3` - base installer template with all GUI boilerplate
-- `templates/uninstaller.au3` - base uninstaller template with self-relaunch pattern
+### Loading templates
+
+Load templates in this order:
+
+1. **Global skills folder** - look for:
+   - `%USERPROFILE%\.claude\skills\installer\templates\installer.au3`
+   - `%USERPROFILE%\.claude\skills\installer\templates\uninstaller.au3`
+   If found, read them from disk.
+
+2. **Alongside the skill file** - if not found, look for `templates\installer.au3` and `templates\uninstaller.au3` relative to the directory containing this `SKILL.md` file. If found, read them from disk.
+
+3. **Online fallback** - if not found locally, fetch from:
+   - `https://raw.githubusercontent.com/crucialthread/CrucialInstaller/main/templates/installer.au3`
+   - `https://raw.githubusercontent.com/crucialthread/CrucialInstaller/main/templates/uninstaller.au3`
+
+4. **Error** - if neither local nor online templates can be loaded, do not proceed. Inform the user and ask them to provide the path manually:
+
+```
+I was unable to load the CrucialInstaller templates. This means I cannot
+generate the installer scripts reliably.
+
+What I tried:
+  - %USERPROFILE%\.claude\skills\installer\templates\ - not found
+  - templates\ alongside SKILL.md - not found
+  - Online: https://raw.githubusercontent.com/crucialthread/CrucialInstaller/main/templates/ - could not fetch
+
+To resolve this, you can:
+  - Provide the path to the templates folder and I will try to load them from there
+  - Ensure the templates/ folder exists at %USERPROFILE%\.claude\skills\installer\templates\
+  - Check your internet connection and try again
+  - Visit https://github.com/crucialthread/CrucialInstaller to get the templates manually
+```
+
+If the user provides a path, attempt to load the templates from that location. If successful, proceed with the guided workflow. If still not found, show the error again with the new path included in "What I tried".
 
 ### Placeholder syntax:
 All placeholders use `{{PLACEHOLDER_NAME}}` syntax. Replace every placeholder before writing output files. Never leave any `{{PLACEHOLDER}}` unreplaced.
@@ -344,6 +410,6 @@ Both go to the output directory. After writing, remind the user:
 - Never put conditionally-visible controls inside a page array - use standalone variables
 - Never use `Case N :` inline syntax in Switch statements - AutoIt requires the statement on the next line
 - Never force-delete folders - always check if empty first
-- Never generate scripts inline in chat - always write files to disk
+- Always prefer writing files to disk over generating scripts inline in chat. If file generation is not possible (e.g. running in Claude Chat) or the user explicitly requests inline output, inform the user that the scripts will be generated inline and ask for their confirmation before proceeding.
 - Never use `FileCopy` for installing embedded files - always use `FileInstall`
 - Never generate ready page content at GUI setup time - always use `__UpdateReadyPage` called from the event loop
