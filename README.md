@@ -17,7 +17,7 @@ Copy the `.claude/skills/installer/` folder and the `templates/` folder to your 
 - **Windows:** `%USERPROFILE%\.claude\skills\installer\`
   (the `.claude` folder is hidden - enable hidden items in Explorer or paste the path directly into the address bar)
 - **macOS/Linux:** `~/.claude/skills/installer/`
-  > Note: the generated scripts are Windows-only and must be compiled on a Windows machine. Using this skill on macOS/Linux is fine - just transfer the generated `.au3` files to a Windows machine to compile them.
+  > **Note:** the generated scripts are Windows-only and must be compiled on a Windows machine. Using this skill on macOS/Linux is fine - just transfer the generated `.au3` files to a Windows machine to compile them.
 
 The skill becomes available in both Claude Code and Cowork automatically.
 
@@ -78,7 +78,7 @@ Once AutoIt is installed:
 
 The compiled installer `.exe` is fully self-contained and can be distributed as a single file.
 
-## Structure
+## Project Structure
 
 ```
 CrucialInstaller/
