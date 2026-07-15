@@ -97,57 +97,15 @@ Things to never ask:
 
 ### Step 4 - Summary
 
-**Interactive mode:** Present a clear confirmation summary and wait for explicit confirmation before generating. If the user corrects anything, update the summary and re-present before generating:
+**Interactive mode:** Present a plain-text confirmation summary covering: product name, version, author, installer type, what gets installed and where, registry entries written, uninstaller actions, and output filenames. End with "Shall I generate these?" and wait for confirmation. If the user corrects anything, update and re-present.
 
-```
-Here is what I will generate - please confirm or correct anything before I proceed:
-
-Product:       {{PRODUCT_NAME}} v{{VERSION}}
-Author:        {{AUTHOR}}
-Type:          Simple installer / Multi-mode installer (Full: ... | Lite: ...)
-
-INSTALLER
-  Pages:       Welcome -> Install Path -> Ready -> Progress/Finish
-  Installs:
-    - ProductFile.dll    -> C:\Program Files\ProductName\
-    - ProductDocs.chm   -> C:\Program Files\ProductName\
-    - Uninstaller.exe   -> C:\Program Files\ProductName\
-  Registry:
-    - Install record at HKLM\SOFTWARE\ProductName
-    - Add/Remove Programs entry
-  Finish:      "Open documentation" checkbox -> opens ProductDocs.chm
-
-UNINSTALLER
-  Removes:
-    - ProductFile.dll from C:\Program Files\ProductName\
-    - ProductDocs.chm from C:\Program Files\ProductName\
-    - Removes folder if empty
-    - Cleans up registry entries
-  Self-relaunch: yes (copies to %TEMP% to delete own folder)
-
-Output files:
-  - ProductNameInstaller.au3
-  - ProductNameUninstaller.au3
-
-Shall I generate these?
-```
-
-**Agent mode:** Output the same summary but replace "Shall I generate these?" with "Proceeding with generation based on the above." and continue immediately to Step 5 without waiting.
+**Agent mode:** Output the same summary but end with "Proceeding with generation based on the above." and continue immediately to Step 5.
 
 ### Step 5 - Generate
 
-Only after explicit confirmation (interactive mode) or immediately after the summary (agent mode), generate both files using the templates. Always prefer writing files to disk. If file generation is not possible (e.g. running in Claude Chat) or the user explicitly requests inline output, inform the user that the scripts will be generated inline and ask for their confirmation before proceeding.
+Only after explicit confirmation (interactive mode) or immediately after the summary (agent mode), generate both files using the templates. If file generation is not possible (e.g. running in Claude Chat) or the user explicitly requests inline output, inform the user that the scripts will be generated inline and ask for their confirmation before proceeding.
 
-**Agent mode only:** after generation, output a structured assumptions log:
-
-```
-Assumptions made during agent mode generation:
-  - Author: not found in project, defaulted to "Unknown"
-  - Install mode: inferred as Simple from single installable component
-  - Install path: defaulted to C:\Program Files\ProductName\
-  - Open documentation: defaulted to Yes (CHM file detected)
-  - [any other assumption made]
-```
+**Agent mode only:** after generation output a structured assumptions log listing every default applied (author, install mode, paths, documentation checkbox) and whether templates were loaded or generated from built-in knowledge.
 
 ---
 
