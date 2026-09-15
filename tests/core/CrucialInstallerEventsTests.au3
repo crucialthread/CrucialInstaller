@@ -1,7 +1,7 @@
 #include-once
 
-#include "..\src\core\TestFramework.au3"
-#include "..\src\installer\CrucialInstaller.au3"
+#include "..\..\lib\TestFramework\TestFramework.au3"
+#include "..\..\src\core\CrucialInstaller.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: CrucialInstallerEventsTests.au3
