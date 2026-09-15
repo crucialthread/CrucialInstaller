@@ -6,7 +6,7 @@
 #include <ButtonConstants.au3>
 #include <ColorConstants.au3>
 #include <Array.au3>
-#include "..\core\Testable.au3"
+#include "..\..\lib\TestFramework\Testable.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: CrucialInstaller.au3
