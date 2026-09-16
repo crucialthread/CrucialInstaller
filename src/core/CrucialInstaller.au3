@@ -6,7 +6,6 @@
 #include <ButtonConstants.au3>
 #include <ColorConstants.au3>
 #include <Array.au3>
-;#include "..\..\lib\TestFramework\Testable.au3"
 #include <Testable.au3>
 
 ; #INDEX# =======================================================================================================================
