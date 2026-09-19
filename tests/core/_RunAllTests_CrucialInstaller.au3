@@ -13,15 +13,15 @@
 #include "CrucialInstallerInitTests.au3"
 
 ; #INDEX# =======================================================================================================================
-; Title .........: AutoIt Test Framework - CrucialInstallerRunAllTests.au3
+; Title .........: Crucial Installer - _RunAllTests_CrucialInstaller.au3
 ; Version .......: 0.0.1
 ; AutoIt Version : 3.3.18.0
 ; Language ......: English
 ; Author ........: Crucial Thread
-; Description ...: Runner script that executes all AutoIt Test Framework test suites.
+; Description ...: Runner script that executes all Crucial Installer test suites.
 ; ===============================================================================================================================
 
-Func _CrucialInstallerRunAllTests()
+Func _RunAllTests_CrucialInstaller()
 
 	Local $bWriteSummary = False
 
@@ -43,4 +43,4 @@ Func _CrucialInstallerRunAllTests()
 	ConsoleWrite("+ Summary")
 	_TestFmkSummary()
 EndFunc
-_CrucialInstallerRunAllTests()
+_RunAllTests_CrucialInstaller()
