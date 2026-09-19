@@ -1,6 +1,6 @@
 #include-once
 
-#include "..\..\lib\CrucialInstaller\Testable.au3"
+#include "..\..\lib\TestFramework\Testable.au3"
 
 ; #INDEX# =======================================================================================================================
 ; Title .........: CrucialInstallerTestableInclude.au3
