@@ -1,0 +1,170 @@
+/* CrucialDocGen - default.css
+   Shared stylesheet for all generated documentation pages.
+   Compatible with IE engine (CHM) and modern browsers (GitHub Pages). */
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #000000;
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0 16px 16px 16px;
+    max-width: 1340px;
+}
+
+h1 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    border-bottom: 1px solid #AAAAAA;
+    padding-bottom: 4px;
+    margin-top: 8px;
+}
+
+h2 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #000000;
+    border-bottom: 1px solid #DDDDDD;
+    padding-bottom: 2px;
+    margin-top: 20px;
+    margin-bottom: 6px;
+}
+
+h3 {
+    font-size: 13px;
+    font-weight: bold;
+    color: navy;
+    margin-top: 14px;
+    margin-bottom: 4px;
+}
+
+p {
+    margin: 6px 0;
+    line-height: 1.5;
+}
+
+a {
+    color: #00709f;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #03697a;
+}
+
+a:hover {
+    color: #3390b1;
+    text-decoration: underline;
+}
+
+/* Function signature / syntax block */
+.signature {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    background-color: #F4F4F4;
+    border: 1px solid #CCCCCC;
+    padding: 6px 10px;
+    margin: 8px 0;
+}
+
+/* Code example block */
+pre {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    background-color: #F4F4F4;
+    border: 1px solid #CCCCCC;
+    padding: 8px 10px;
+    margin: 8px 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+code {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+}
+
+/* Parameters and return value tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 6px 0 10px 0;
+    font-size: 13px;
+}
+
+table td {
+    border: 1px solid #CCCCCC;
+    padding: 4px 8px;
+    vertical-align: top;
+}
+
+table td:first-child {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    white-space: nowrap;
+    width: 1%;
+    background-color: #F4F4F4;
+}
+
+/* Top navigation bar */
+.topnav {
+    font-size: 12px;
+    background-color: #F0F0F0;
+    border-bottom: 1px solid #CCCCCC;
+    padding: 4px 8px;
+    margin: 0 -16px 12px -16px;
+}
+
+.topnav a {
+    color: #00709f;
+    margin-right: 12px;
+}
+
+/* Section divider */
+hr {
+    border: none;
+    border-top: 1px solid #AAAAAA;
+    margin: 10px 0;
+}
+
+/* Note/remark callout */
+.note {
+    background-color: #FFFFF0;
+    border-left: 3px solid #CCCC00;
+    padding: 6px 10px;
+    margin: 8px 0;
+    font-size: 12px;
+}
+
+.note ul {
+    margin: 4px 0;
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+.note ul li {
+    margin: 2px 0;
+}
+
+/* Warning callout */
+.warning {
+    background-color: #FFF0F0;
+    border-left: 3px solid #CC0000;
+    padding: 6px 10px;
+    margin: 8px 0;
+    font-size: 12px;
+}
+
+/* Terminal / console output sample - dark background, light text.
+   Use .pass, .fail, .head, .total span classes only when the project
+   output has specific colored states that map to those concepts. */
+.console {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    background-color: #1E1E1E;
+    color: #D4D4D4;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border: 1px solid #555555;
+}

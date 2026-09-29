@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_AddIntroPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_AddIntroPage</h1>
+
+<p>Creates an intro/welcome page, adds it to the wizard and returns its page index.</p>
+
+<div class="signature">
+_AddIntroPage(ByRef $mWizard, Const ByRef $mCfg, [$sIntroText = "" [, $sIntroSubHeading = "" [, $sIntroVersion = $DEFAULT_VERSION]]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$mWizard</td><td>The wizard map, as returned by <code>_NewWizard()</code>. Passed by reference; <code>iIntroPageId</code> is set on it.</td></tr>
+<tr><td>$mCfg</td><td>The installer config map.</td></tr>
+<tr><td>$sIntroText</td><td>[optional] The welcome text shown on the page.</td></tr>
+<tr><td>$sIntroSubHeading</td><td>[optional] The header subtitle shown when this page is active.</td></tr>
+<tr><td>$sIntroVersion</td><td>[optional] The version string shown at the bottom of the page. Default is <code>$DEFAULT_VERSION</code> ("0.0.1"). An empty string hides the version label.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>The page's 1-based index, also stored in <code>$mWizard.iIntroPageId</code>.</td></tr>
+<tr><td>Failure</td><td>0, with <code>@error</code> set to <code>$INST_ERR_INVALID_WIZARD</code>, if <code>$mWizard</code> is not a valid, ready wizard.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>The intro page is a plain <code>$eNormalPage</code> - it has no special button behavior and is typically the first page added.</p>
+
+<h2>Related</h2>
+<p><a href="_AddPathPage.htm">_AddPathPage</a>, <a href="_NewWizard.htm">_NewWizard</a></p>
+
+<h2>Example</h2>
+<pre>
+_AddIntroPage($mWizard, $mCfg, _
+    "Welcome to the Lumen Setup Wizard." & @CRLF & @CRLF & "Click Next to continue.", _
+    "Welcome", "1.2.0")
+
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_NewBtnDim - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_NewBtnDim</h1>
+
+<p>Creates a button dimension config map with width, height, horizontal gap and Y position for the Cancel/Back/Next button row.</p>
+
+<div class="signature">
+_NewBtnDim([$iWidth = $BTN_W [, $iHeight = $BTN_H [, $iGap = $BTN_GAP [, $iYaxis = $BTN_Y]]]]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$iWidth</td><td>[optional] Width of each button in pixels. Default is <code>$BTN_W</code> (130).</td></tr>
+<tr><td>$iHeight</td><td>[optional] Height of each button in pixels. Default is <code>$BTN_H</code> (34).</td></tr>
+<tr><td>$iGap</td><td>[optional] Horizontal gap between buttons in pixels. Default is <code>$BTN_GAP</code> (10).</td></tr>
+<tr><td>$iYaxis</td><td>[optional] Y position of the button row. Default is <code>$BTN_Y</code>.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>A map with keys <code>iWidth</code>, <code>iHeight</code>, <code>iGap</code>, <code>iYaxis</code>.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>Consumed by <code>_NewBtnCfg()</code> together with a captions map. <code>_CreateButtons()</code> uses these dimensions to center the three-button row horizontally in the window.</p>
+
+<h2>Related</h2>
+<p><a href="_NewBtnCaptions.htm">_NewBtnCaptions</a>, <a href="_NewBtnCfg.htm">_NewBtnCfg</a>, <a href="_CreateButtons.htm">_CreateButtons</a></p>
+
+<h2>Example</h2>
+<pre>
+; Slimmer, closer-spaced buttons
+Local $mBtnDim = _NewBtnDim(110, 30, 6)
+Local $mBtnCfg = _NewBtnCfg($mBtnDim)
+
+</pre>
+
+</body>
+</html>

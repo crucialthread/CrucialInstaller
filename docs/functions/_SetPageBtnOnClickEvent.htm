@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_SetPageBtnOnClickEvent - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_SetPageBtnOnClickEvent</h1>
+
+<p>Registers an OnClick event handler for a specific button control on a page.</p>
+
+<div class="signature">
+_SetPageBtnOnClickEvent(ByRef $mPage, $idBtnControl, $mEventHandler)
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$mPage</td><td>The page map to register the handler on. Passed by reference.</td></tr>
+<tr><td>$idBtnControl</td><td>The control ID of the button to attach the event to (e.g. from <code>GUICtrlCreateButton()</code>).</td></tr>
+<tr><td>$mEventHandler</td><td>An event handler map created with <code>_SetEventHandler()</code>.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>-</td><td>Null if <code>$mPage</code> or <code>$mEventHandler</code> is invalid, or if <code>$mEventHandler</code> has no <code>hHandler</code> key. Otherwise no meaningful return value; <code>$mPage.mBtnEvents</code> is updated in place.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>Fired from the wizard's main event loop whenever a button other than Cancel/Back/Next posts a message while its page is current. This is how the Browse button on the path page template is wired up.</p>
+
+<h2>Related</h2>
+<p><a href="_SetEventHandler.htm">_SetEventHandler</a>, <a href="_OnClick_SetFolder.htm">_OnClick_SetFolder</a></p>
+
+<h2>Example</h2>
+<pre>
+Local $idBtnBrowse = GUICtrlCreateButton("Browse...", 300, 150, 80, 30)
+Local $aArgs = _HandlerArgs($idInputPath, "Install folder:", Default)
+_SetPageBtnOnClickEvent($mPage, $idBtnBrowse, _SetEventHandler(_OnClick_SetFolder, $aArgs))
+
+</pre>
+
+</body>
+</html>

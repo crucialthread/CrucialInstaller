@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_NewBtnCaptions - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_NewBtnCaptions</h1>
+
+<p>Creates a button captions config map with the label text for each wizard button and state.</p>
+
+<div class="signature">
+_NewBtnCaptions([$sNext = $BTN_CAPTION_NEXT [, $sBack = $BTN_CAPTION_BACK [, $sCancel = $BTN_CAPTION_CANCEL [, $sFinish = $BTN_CAPTION_FINISH [, $sApply = $BTN_CAPTION_APPLY]]]]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$sNext</td><td>[optional] Caption for the Next button. Default is "Next &gt;".</td></tr>
+<tr><td>$sBack</td><td>[optional] Caption for the Back button. Default is "&lt; Back".</td></tr>
+<tr><td>$sCancel</td><td>[optional] Caption for the Cancel button. Default is "Cancel".</td></tr>
+<tr><td>$sFinish</td><td>[optional] Caption the Next button switches to on the finish page. Default is "Finish".</td></tr>
+<tr><td>$sApply</td><td>[optional] Caption the Next button switches to on a ready/proceed page. Default is "Install".</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>A map with keys <code>sNext</code>, <code>sBack</code>, <code>sCancel</code>, <code>sFinish</code>, <code>sApply</code>.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>Pass custom captions here to localize the wizard or to change "Install" to "Uninstall",
+"Update", etc. for a different kind of wizard. The values become the button captions the wizard
+uses once <code>_NewWizard()</code> runs.</p>
+
+<h2>Related</h2>
+<p><a href="_NewBtnDim.htm">_NewBtnDim</a>, <a href="_NewBtnCfg.htm">_NewBtnCfg</a></p>
+
+<h2>Example</h2>
+<pre>
+; Uninstaller-flavored captions
+Local $mCapt = _NewBtnCaptions("Next >", "&lt; Back", "Cancel", "Finish", "Uninstall")
+Local $mBtnCfg = _NewBtnCfg(_NewBtnDim(), $mCapt)
+
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_HandlerArgs - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_HandlerArgs</h1>
+
+<p>Creates a CallArgArray-style args array from up to 10 values, for use with _SetEventHandler().</p>
+
+<div class="signature">
+_HandlerArgs([$v01 = Default [, $v02 = Default [, ... [, $v10 = Default]]]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$v01 .. $v10</td><td>[optional] Up to 10 positional values to pass to a handler function. Trailing arguments left as <code>Default</code> are excluded from the result.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>An array whose first element is the literal string <code>"CallArgArray"</code> followed by the arguments actually supplied, sized to <code>@NumParams + 1</code>.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>This builds the <code>$aArgs</code> array that <code>_SetEventHandler()</code> expects, and that in
+turn is passed on to <code>_SetPageBtnOnClickEvent()</code> or a page's <code>OnLoad</code>/<code>AfterLoad</code>/<code>OnClose</code>
+setter. Only pass as many values as the target handler actually needs - passing fewer keeps the
+array smaller.</p>
+
+<h2>Related</h2>
+<p><a href="_SetEventHandler.htm">_SetEventHandler</a></p>
+
+<h2>Example</h2>
+<pre>
+Local $aArgs = _HandlerArgs($idInputPath, "Install folder:", $hUpdateSrcFunc)
+Local $mHandler = _SetEventHandler(_OnClick_SetFolder, $aArgs)
+
+</pre>
+
+</body>
+</html>

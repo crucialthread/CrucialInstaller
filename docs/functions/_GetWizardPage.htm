@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_GetWizardPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_GetWizardPage</h1>
+
+<p>Returns the page map at a given index from the wizard's pages collection.</p>
+
+<div class="signature">
+_GetWizardPage(ByRef $mWizard, $iPage)
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$mWizard</td><td>The wizard map returned by <code>_NewWizard()</code>. Passed by reference.</td></tr>
+<tr><td>$iPage</td><td>The 1-based page index to retrieve, as returned by an <code>_Add*Page()</code> helper.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>The page map at <code>$iPage</code>.</td></tr>
+<tr><td>Failure</td><td>Null, if <code>$mWizard</code> has no <code>mPages</code> key or <code>$iPage</code> is not a valid index.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>Useful for inspecting or modifying a page after it has been added, using the index stored by an <code>_Add*Page()</code> helper (e.g. <code>$mWizard.iReadyPageId</code>).</p>
+
+<h2>Related</h2>
+<p><a href="_AddReadyPage.htm">_AddReadyPage</a>, <a href="_NewWizard.htm">_NewWizard</a></p>
+
+<h2>Example</h2>
+<pre>
+Local $iReady = _AddReadyPage($mWizard, $mCfg, "Ready to install.")
+Local $mReadyPage = _GetWizardPage($mWizard, $iReady)
+ConsoleWrite($mReadyPage.sSubheading & @CRLF)
+
+</pre>
+
+</body>
+</html>

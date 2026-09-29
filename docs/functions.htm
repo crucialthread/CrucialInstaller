@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Function Reference - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="index.htm">Welcome</a>
+<a href="concepts.htm">Concepts</a>
+<a href="getting-started.htm">Getting Started</a>
+<a href="functions.htm">Function Reference</a>
+<a href="constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+
+<h2>Configuration</h2>
+<table>
+<tr><td><a href="functions/_NewWndCfg.htm">_NewWndCfg</a></td><td>Creates a window dimension config map with the layout metrics used to position the header, footer separator and content area.</td></tr>
+<tr><td><a href="functions/_NewFontCfg.htm">_NewFontCfg</a></td><td>Creates a font config map with a font name and size, used for every label and button the wizard creates.</td></tr>
+<tr><td><a href="functions/_NewBtnDim.htm">_NewBtnDim</a></td><td>Creates a button dimension config map with width, height, horizontal gap and Y position for the Cancel/Back/Next button row.</td></tr>
+<tr><td><a href="functions/_NewBtnCaptions.htm">_NewBtnCaptions</a></td><td>Creates a button captions config map with the label text for each wizard button and state.</td></tr>
+<tr><td><a href="functions/_NewBtnCfg.htm">_NewBtnCfg</a></td><td>Creates a button config map combining button dimensions and captions. Falls back to defaults for either part if an invalid map is passed.</td></tr>
+<tr><td><a href="functions/_NewInstallerCfg.htm">_NewInstallerCfg</a></td><td>Creates the single flat installer config map that is passed throughout the wizard - all layout, font and button settings are read from it. Falls back to defaults if invalid maps are provided.</td></tr>
+</table>
+
+<h2>Installer Events</h2>
+<table>
+<tr><td><a href="functions/_GetInstallerEvent.htm">_GetInstallerEvent</a></td><td>Returns the current installer event state.</td></tr>
+<tr><td><a href="functions/_SetInstallerEvent.htm">_SetInstallerEvent</a></td><td>Sets the current installer event state.</td></tr>
+</table>
+
+<h2>Pages</h2>
+<table>
+<tr><td><a href="functions/_CreatePages.htm">_CreatePages</a></td><td>Creates and returns an empty pages map to hold wizard pages.</td></tr>
+<tr><td><a href="functions/_NewPage.htm">_NewPage</a></td><td>Creates and returns a new page map with a subheading, status and an empty controls array.</td></tr>
+<tr><td><a href="functions/_AddPage.htm">_AddPage</a></td><td>Adds a page to the pages map and returns its 1-based index.</td></tr>
+<tr><td><a href="functions/_GetWizardPage.htm">_GetWizardPage</a></td><td>Returns the page map at a given index from the wizard's pages collection.</td></tr>
+</table>
+
+<h2>Page Controls</h2>
+<table>
+<tr><td><a href="functions/_SetPageCtrl.htm">_SetPageCtrl</a></td><td>Registers a control ID under a named key in the page map and stores it in the page's controls array.</td></tr>
+<tr><td><a href="functions/_GetPageCtrl.htm">_GetPageCtrl</a></td><td>Returns the control ID registered under a named key in the page map.</td></tr>
+</table>
+
+<h2>Event Handlers</h2>
+<table>
+<tr><td><a href="functions/_HandlerArgs.htm">_HandlerArgs</a></td><td>Creates a CallArgArray-style args array from up to 10 values, for use with _SetEventHandler().</td></tr>
+<tr><td><a href="functions/_SetEventHandler.htm">_SetEventHandler</a></td><td>Creates an event handler map holding a function reference and optional arguments.</td></tr>
+<tr><td><a href="functions/_SetPageBtnOnClickEvent.htm">_SetPageBtnOnClickEvent</a></td><td>Registers an OnClick event handler for a specific button control on a page.</td></tr>
+</table>
+
+<h2>Wizard Buttons</h2>
+<table>
+<tr><td><a href="functions/_CreateButtons.htm">_CreateButtons</a></td><td>Creates the three main wizard buttons (Cancel, Back, Next) on a window and returns a buttons map.</td></tr>
+</table>
+
+<h2>Progress Bar</h2>
+<table>
+<tr><td><a href="functions/_ProgressStep.htm">_ProgressStep</a></td><td>Updates the progress bar and status label for a single installer step, with a short delay before and after so the change is visible.</td></tr>
+</table>
+
+<h2>Page Template Events</h2>
+<table>
+<tr><td><a href="functions/_OnLoad_ReadyPage.htm">_OnLoad_ReadyPage</a></td><td>OnLoad handler that calls a supplied function and shows its returned text in an info label.</td></tr>
+<tr><td><a href="functions/_AfterLoad_ProgressPage.htm">_AfterLoad_ProgressPage</a></td><td>AfterLoad handler that runs an install/uninstall function and advances the wizard automatically when it finishes.</td></tr>
+<tr><td><a href="functions/_AfterLoad_FinishPage.htm">_AfterLoad_FinishPage</a></td><td>AfterLoad handler that marks the installer event so the wizard exits on the next Next/Back/Cancel.</td></tr>
+<tr><td><a href="functions/_OnClose_FinishPage.htm">_OnClose_FinishPage</a></td><td>OnClose handler that opens a file if a checkbox is checked.</td></tr>
+<tr><td><a href="functions/_OnClick_SetFolder.htm">_OnClick_SetFolder</a></td><td>OnClick handler that opens a folder selection dialog and updates an input with the result.</td></tr>
+</table>
+
+<h2>Page Templates</h2>
+<table>
+<tr><td><a href="functions/_AddIntroPage.htm">_AddIntroPage</a></td><td>Creates an intro/welcome page, adds it to the wizard and returns its page index.</td></tr>
+<tr><td><a href="functions/_AddPathPage.htm">_AddPathPage</a></td><td>Creates a path selection page, adds it to the wizard and returns its page index.</td></tr>
+<tr><td><a href="functions/_AddReadyPage.htm">_AddReadyPage</a></td><td>Creates a ready/confirm page, adds it to the wizard and returns its page index.</td></tr>
+<tr><td><a href="functions/_AddProgressPage.htm">_AddProgressPage</a></td><td>Creates a progress page, adds it to the wizard and returns its page index.</td></tr>
+<tr><td><a href="functions/_AddFinishPage.htm">_AddFinishPage</a></td><td>Creates a finish page, adds it to the wizard and returns its page index.</td></tr>
+</table>
+
+<h2>Header Construction</h2>
+<table>
+<tr><td><a href="functions/_CreateSeparator.htm">_CreateSeparator</a></td><td>Creates a 1-pixel horizontal separator label on a window and sets its background color.</td></tr>
+<tr><td><a href="functions/_CreateHeaderTitle.htm">_CreateHeaderTitle</a></td><td>Creates the header title label on a window.</td></tr>
+<tr><td><a href="functions/_CreateHeaderSub.htm">_CreateHeaderSub</a></td><td>Creates the header subtitle label on a window, updated on each page load to show the current page's subtitle.</td></tr>
+<tr><td><a href="functions/_CreateHeader.htm">_CreateHeader</a></td><td>Creates the full header bar on a window, including the background band, title, subtitle and separator line.</td></tr>
+</table>
+
+<h2>Wizard</h2>
+<table>
+<tr><td><a href="functions/_NewWizard.htm">_NewWizard</a></td><td>Creates and returns a new wizard map with a window, header, footer separator, buttons and an empty pages collection.</td></tr>
+<tr><td><a href="functions/_InitWizard.htm">_InitWizard</a></td><td>Entry point for starting the wizard - validates it is ready, then runs its event loop until the user finishes or cancels.</td></tr>
+</table>
+
+
+
+</body>
+</html>

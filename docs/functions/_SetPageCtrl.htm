@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_SetPageCtrl - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_SetPageCtrl</h1>
+
+<p>Registers a control ID under a named key in the page map and stores it in the page's controls array.</p>
+
+<div class="signature">
+_SetPageCtrl(ByRef $mPage, $idCtrl, $sCtrlName)
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$mPage</td><td>The page map to register the control on. Passed by reference.</td></tr>
+<tr><td>$idCtrl</td><td>The AutoIt control ID returned by a <code>GUICtrlCreate*</code> function.</td></tr>
+<tr><td>$sCtrlName</td><td>A descriptive name for the control, later normalized to <code>i&lt;Name&gt;Id</code> (e.g. <code>"BtnNext"</code> becomes <code>"iBtnNextId"</code>) and used to retrieve it via <code>_GetPageCtrl()</code>.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>The control's index within <code>$mPage.aControls</code>.</td></tr>
+<tr><td>Failure</td><td>Null, with <code>@error</code> set to <code>$INST_ERR_INVALID_CTRL</code>, if <code>$mPage</code> is not a map, <code>$idCtrl</code> is not a valid control handle, or the internal array update fails.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>If the named control already exists on the page, its entry is updated in place; otherwise a new
+entry is appended to <code>$mPage.aControls</code>. All of the library's built-in page templates call
+this for every control they create, which is what lets the wizard show, hide, and manage a page's
+controls generically, without each page template having to track its own control list.</p>
+
+<h2>Related</h2>
+<p><a href="_GetPageCtrl.htm">_GetPageCtrl</a>, <a href="_NewPage.htm">_NewPage</a></p>
+
+<h2>Example</h2>
+<pre>
+Local $idInput = GUICtrlCreateInput("", 10, 10, 200, 24)
+_SetPageCtrl($mPage, $idInput, "InputName")
+
+</pre>
+
+</body>
+</html>

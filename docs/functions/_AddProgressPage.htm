@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_AddProgressPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_AddProgressPage</h1>
+
+<p>Creates a progress page, adds it to the wizard and returns its page index.</p>
+
+<div class="signature">
+_AddProgressPage(ByRef $mWizard, Const ByRef $mCfg, $hFunction, [$sFailureMsg = "Process failed" [, $sProgressSubHeading = ""]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$mWizard</td><td>The wizard map. Passed by reference; <code>iProgressPageId</code> is set on it.</td></tr>
+<tr><td>$mCfg</td><td>The installer config map.</td></tr>
+<tr><td>$hFunction</td><td>The install/uninstall function to run. Receives <code>($idLblProgress, $idProgressbar)</code> and must return a Boolean success flag.</td></tr>
+<tr><td>$sFailureMsg</td><td>[optional] The error message shown if <code>$hFunction</code> returns False. Default is "Process failed".</td></tr>
+<tr><td>$sProgressSubHeading</td><td>[optional] The header subtitle shown when this page is active.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>The page's 1-based index, also stored in <code>$mWizard.iProgressPageId</code>.</td></tr>
+<tr><td>Failure</td><td>0, with <code>@error</code> set to <code>$INST_ERR_INVALID_WIZARD</code>, if <code>$mWizard</code> is not a valid, ready wizard.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>The progress page has <code>iStatus = $eProcessingPage</code>, which disables Cancel/Back/Next while
+it runs. Its <code>AfterLoad</code> event is <code>_AfterLoad_ProgressPage()</code>, which runs
+<code>$hFunction</code> and clicks Next automatically once it finishes - use <code>_ProgressStep()</code>
+inside <code>$hFunction</code> to move the progress bar.</p>
+
+<h2>Related</h2>
+<p><a href="_ProgressStep.htm">_ProgressStep</a>, <a href="_AfterLoad_ProgressPage.htm">_AfterLoad_ProgressPage</a>, <a href="_AddFinishPage.htm">_AddFinishPage</a></p>
+
+<h2>Example</h2>
+<pre>
+Func _MyInstallProcess($idLblProgress, $idProgressbar)
+    Local $aFiles = _FileListToArray($g_sSourcePath)
+    For $i = 1 To $aFiles[0]
+        FileCopy($g_sSourcePath & "\" & $aFiles[$i], $g_sInstallPath & "\" & $aFiles[$i])
+        _ProgressStep($idLblProgress, $idProgressbar, $i, $aFiles[0], "Copying " & $aFiles[$i])
+    Next
+    Return True
+EndFunc
+
+_AddProgressPage($mWizard, $mCfg, _MyInstallProcess, "Installation failed", "Installing")
+
+</pre>
+
+</body>
+</html>

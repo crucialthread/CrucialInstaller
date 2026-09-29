@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_AfterLoad_ProgressPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_AfterLoad_ProgressPage</h1>
+
+<p>AfterLoad handler that runs an install/uninstall function and advances the wizard automatically when it finishes.</p>
+
+<div class="signature">
+_AfterLoad_ProgressPage($hWin, $idLblProgress, $idProgressbar, $idBtnNext, $hFunction, $sInstallerTitle, $sFailureMsg)
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$hWin</td><td>The wizard window handle, used as the parent for the failure MsgBox.</td></tr>
+<tr><td>$idLblProgress</td><td>The progress label control ID, passed through to <code>$hFunction</code>.</td></tr>
+<tr><td>$idProgressbar</td><td>The progress bar control ID, passed through to <code>$hFunction</code>.</td></tr>
+<tr><td>$idBtnNext</td><td>The Next button control ID, clicked programmatically once <code>$hFunction</code> returns.</td></tr>
+<tr><td>$hFunction</td><td>The install/uninstall function to run. Receives <code>($idLblProgress, $idProgressbar)</code> and must return a Boolean success flag.</td></tr>
+<tr><td>$sInstallerTitle</td><td>The wizard title, used as the failure MsgBox title.</td></tr>
+<tr><td>$sFailureMsg</td><td>The message shown in the failure MsgBox if <code>$hFunction</code> returns False.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>-</td><td>No meaningful return value. On failure, shows an error MsgBox and calls <code>_SetInstallerEvent($EVENT_CLOSE_PAGE)</code> so the wizard exits on the next navigation.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>The progress page registers this as its <code>AfterLoad</code> event automatically,
+passing its own progress label, progress bar and Next button control IDs along with the
+<code>$hFunction</code>, title and failure message you gave to <code>_AddProgressPage()</code>. Once
+<code>$hFunction</code> returns, this is what advances the wizard to the next page automatically (or
+shows the failure message and closes) without the user having to click anything themselves.</p>
+
+<p>It isn't limited to the progress page, though: since all seven values are passed in through
+<code>_HandlerArgs()</code>, the same handler can back a custom <code>$eProcessingPage</code> page
+with its own label, progress bar and Next button - register it the same way
+<code>_AddProgressPage()</code> does internally:</p>
+
+<h2>Related</h2>
+<p><a href="_AddProgressPage.htm">_AddProgressPage</a>, <a href="_ProgressStep.htm">_ProgressStep</a>, <a href="_SetEventHandler.htm">_SetEventHandler</a></p>
+
+<h2>Example</h2>
+<pre>
+Func _MyInstallProcess($idLblProgress, $idProgressbar)
+    _ProgressStep($idLblProgress, $idProgressbar, 1, 1, "Done")
+    Return True
+EndFunc
+
+$mPage.AfterLoad = _SetEventHandler(_AfterLoad_ProgressPage, _HandlerArgs( _
+    $mWizard.hWin, $idLblProgress, $idProgressbar, $idBtnNext, _
+    _MyInstallProcess, "My Setup", "The process could not complete."))
+
+</pre>
+
+</body>
+</html>

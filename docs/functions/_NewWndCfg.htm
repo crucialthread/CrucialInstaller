@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_NewWndCfg - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_NewWndCfg</h1>
+
+<p>Creates a window dimension config map with the layout metrics used to position the header, footer separator and content area.</p>
+
+<div class="signature">
+_NewWndCfg([$iWidth = $WIN_WIDTH [, $iHeight = $WIN_HEIGHT [, $iFooterSepY = $FOOTER_SEP_Y [, $iHeaderHeight = $HEADER_H [, $iContentTop = $CONTENT_TOP [, $iContentWidth = $CONTENT_W]]]]]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$iWidth</td><td>[optional] Window width in pixels. Default is <code>$WIN_WIDTH</code> (540).</td></tr>
+<tr><td>$iHeight</td><td>[optional] Window height in pixels. Default is <code>$WIN_HEIGHT</code> (345).</td></tr>
+<tr><td>$iFooterSepY</td><td>[optional] Y position of the footer separator line. Default is <code>$FOOTER_SEP_Y</code>.</td></tr>
+<tr><td>$iHeaderHeight</td><td>[optional] Height in pixels of the header band. Default is <code>$HEADER_H</code> (70).</td></tr>
+<tr><td>$iContentTop</td><td>[optional] Y position where page content begins, below the header. Default is <code>$CONTENT_TOP</code>.</td></tr>
+<tr><td>$iContentWidth</td><td>[optional] Width available to page content. Default is <code>$CONTENT_W</code>.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>A map with keys <code>iWidth</code>, <code>iHeight</code>, <code>iFooterSepY</code>, <code>iHeaderHeight</code>, <code>iContentTop</code>, <code>iContentWidth</code>, all coerced to <code>Int()</code>.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+
+<p>This is the first of the small "part" config constructors. The map it returns is combined with
+a font config and a button config by <code>_NewInstallerCfg()</code> into the single flat config map
+that every page-template and layout function in the library reads from. Each parameter corresponds
+directly to one of the library's own layout constants (<code>$WIN_WIDTH</code>, <code>$HEADER_H</code>,
+etc.), so a caller can override exactly one dimension - say a taller window - without reconstructing
+the rest of the layout by hand.</p>
+
+
+<h2>Related</h2>
+<p><a href="_NewFontCfg.htm">_NewFontCfg</a>, <a href="_NewBtnCfg.htm">_NewBtnCfg</a>, <a href="_NewInstallerCfg.htm">_NewInstallerCfg</a></p>
+
+<h2>Example</h2>
+<pre>
+; Wider window, everything else default
+Local $mWndCfg = _NewWndCfg(640)
+Local $mCfg = _NewInstallerCfg($mWndCfg)
+
+</pre>
+
+</body>
+</html>

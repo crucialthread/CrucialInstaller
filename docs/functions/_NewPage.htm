@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_NewPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_NewPage</h1>
+
+<p>Creates and returns a new page map with a subheading, status and an empty controls array.</p>
+
+<div class="signature">
+_NewPage([$sSubheading = "" [, $iStatus = $eNormalPage]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$sSubheading</td><td>[optional] Text shown in the header subtitle when this page is active.</td></tr>
+<tr><td>$iStatus</td><td>[optional] Page type - one of <code>$eClosePage</code>, <code>$eNormalPage</code>, <code>$eProceedPage</code>, <code>$eProcessingPage</code>, <code>$eFinishPage</code>. Default is <code>$eNormalPage</code>. An invalid value falls back to <code>$eNormalPage</code>.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>A map with keys <code>sSubheading</code>, <code>iStatus</code>, <code>aControls</code> (empty array) and <code>mBtnEvents</code> (empty map).</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>Every one of the library's own page templates starts from a page built with
+<code>_NewPage()</code> and then adds controls and events to it. Build a page this way when adding
+a fully custom page to the wizard rather than one of the ready-made templates.</p>
+
+<h2>Related</h2>
+<p><a href="_AddPage.htm">_AddPage</a>, <a href="_SetPageCtrl.htm">_SetPageCtrl</a>, <a href="_SetPageBtnOnClickEvent.htm">_SetPageBtnOnClickEvent</a></p>
+
+<h2>Example</h2>
+<pre>
+Local $mPage = _NewPage("Choose options", $eNormalPage)
+; ... create controls on $mWizard.hWin, then:
+_SetPageCtrl($mPage, $idCheckbox, "ChkOption")
+_AddPage($mWizard.mPages, $mPage)
+
+</pre>
+
+</body>
+</html>

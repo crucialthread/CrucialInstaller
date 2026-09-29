@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_CreatePages - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_CreatePages</h1>
+
+<p>Creates and returns an empty pages map to hold wizard pages.</p>
+
+<div class="signature">
+_CreatePages()
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td colspan="2">None.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>An empty map, ready to be filled with pages via <code>_AddPage()</code>.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>Called once by <code>_NewWizard()</code> to initialize <code>$mWizard.mPages</code>. There is normally no need to call this directly - use the <code>_Add*Page()</code> helpers, which call <code>_AddPage()</code> for you.</p>
+
+<h2>Related</h2>
+<p><a href="_AddPage.htm">_AddPage</a>, <a href="_NewWizard.htm">_NewWizard</a></p>
+
+<h2>Example</h2>
+<pre>
+Local $mPages = _CreatePages()
+ConsoleWrite(UBound($mPages) & @CRLF)  ; 0
+
+</pre>
+
+</body>
+</html>

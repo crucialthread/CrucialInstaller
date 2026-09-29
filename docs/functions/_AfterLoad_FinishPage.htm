@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_AfterLoad_FinishPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_AfterLoad_FinishPage</h1>
+
+<p>AfterLoad handler that marks the installer event so the wizard exits on the next Next/Back/Cancel.</p>
+
+<div class="signature">
+_AfterLoad_FinishPage()
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td colspan="2">None.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>-</td><td>No meaningful return value; calls <code>_SetInstallerEvent($EVENT_CLOSE_PAGE)</code>.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p><code>_AddFinishPage()</code> registers this as the finish page's <code>AfterLoad</code>
+event automatically. Combined with the finish page's <code>iStatus = $eFinishPage</code>, this is
+what turns the Next button into Finish and closes the wizard the moment it is clicked.</p>
+
+<p>It isn't limited to the finish page, though: since it takes no arguments, it's also the simplest
+way to make a custom page close the wizard on its next navigation - register it directly, no
+<code>_HandlerArgs()</code> needed:</p>
+
+<h2>Related</h2>
+<p><a href="_AddFinishPage.htm">_AddFinishPage</a>, <a href="_SetInstallerEvent.htm">_SetInstallerEvent</a>, <a href="_SetEventHandler.htm">_SetEventHandler</a></p>
+
+<h2>Example</h2>
+<pre>
+$mPage.AfterLoad = _SetEventHandler(_AfterLoad_FinishPage)
+
+</pre>
+
+</body>
+</html>

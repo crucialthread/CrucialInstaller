@@ -1,0 +1,63 @@
+; NOTE: before compiling with HTML Help Workshop, place (or symlink) the
+; generated docs output as a 'html' folder next to this .hhp file, e.g.:
+;   chm/html  ->  ../docs
+; HTML Help Workshop will produce the .chm and a matching .chw index file
+; automatically on compile; do not create the .chw file by hand.
+
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=CrucialInstaller.chm
+Contents file=CrucialInstaller.hhc
+Index file=CrucialInstaller.hhk
+Default topic=html\index.htm
+Default Window=Main
+Display compile progress=No
+Full-text search=Yes
+Language=0x409 English (United States)
+Title=CrucialInstaller
+
+[WINDOWS]
+Main="CrucialInstaller","CrucialInstaller.hhc","CrucialInstaller.hhk","html\index.htm","html\index.htm",,,,,0x63520,,0x10384e,,,,,,,,0
+
+[FILES]
+html\index.htm
+html\concepts.htm
+html\getting-started.htm
+html\functions.htm
+html\constants.htm
+html\functions\_NewWndCfg.htm
+html\functions\_NewFontCfg.htm
+html\functions\_NewBtnDim.htm
+html\functions\_NewBtnCaptions.htm
+html\functions\_NewBtnCfg.htm
+html\functions\_NewInstallerCfg.htm
+html\functions\_GetInstallerEvent.htm
+html\functions\_SetInstallerEvent.htm
+html\functions\_CreatePages.htm
+html\functions\_NewPage.htm
+html\functions\_AddPage.htm
+html\functions\_GetWizardPage.htm
+html\functions\_SetPageCtrl.htm
+html\functions\_GetPageCtrl.htm
+html\functions\_HandlerArgs.htm
+html\functions\_SetEventHandler.htm
+html\functions\_SetPageBtnOnClickEvent.htm
+html\functions\_CreateButtons.htm
+html\functions\_ProgressStep.htm
+html\functions\_OnLoad_ReadyPage.htm
+html\functions\_AfterLoad_ProgressPage.htm
+html\functions\_AfterLoad_FinishPage.htm
+html\functions\_OnClose_FinishPage.htm
+html\functions\_OnClick_SetFolder.htm
+html\functions\_AddIntroPage.htm
+html\functions\_AddPathPage.htm
+html\functions\_AddReadyPage.htm
+html\functions\_AddProgressPage.htm
+html\functions\_AddFinishPage.htm
+html\functions\_CreateSeparator.htm
+html\functions\_CreateHeaderTitle.htm
+html\functions\_CreateHeaderSub.htm
+html\functions\_CreateHeader.htm
+html\functions\_NewWizard.htm
+html\functions\_InitWizard.htm
+html\css\default.css

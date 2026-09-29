@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Welcome - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="index.htm">Welcome</a>
+<a href="concepts.htm">Concepts</a>
+<a href="getting-started.htm">Getting Started</a>
+<a href="functions.htm">Function Reference</a>
+<a href="constants.htm">Constants</a>
+</div>
+
+
+<h1>CrucialInstaller</h1>
+
+<p>CrucialInstaller is an AutoIt library for building the setup wizard of an installer or
+uninstaller: the window, the header, the Cancel/Back/Next buttons, and a sequence of pages the user
+clicks through. Rather than laying out that window by hand for every project, a script describes its
+wizard as a short list of function calls and CrucialInstaller takes care of the window plumbing,
+page switching, and button behavior underneath it.</p>
+
+<h2>Key Features</h2>
+<table>
+<tr><td>One config map</td><td>Window size, fonts, button captions and layout metrics all live in a single map, built once and handed to every other call.</td></tr>
+<tr><td>Five ready-made pages</td><td>Welcome, choose-a-folder, ready-to-proceed, progress and finish pages cover most installers without any custom GUI code.</td></tr>
+<tr><td>A small event system</td><td>A page or button can run its own function on load, after load, on close, or on click, without changing how the wizard itself navigates.</td></tr>
+<tr><td>Buttons that manage themselves</td><td>Cancel, Back and Next enable, disable and relabel automatically from a page's status and its position in the wizard.</td></tr>
+<tr><td>Plain maps everywhere</td><td>A config, a page, and the wizard itself are all ordinary AutoIt maps, so they can be inspected, copied or adjusted with normal map syntax.</td></tr>
+</table>
+
+<h2>Quick Example</h2>
+<pre>
+#include &lt;CrucialInstaller.au3&gt;
+
+Local $mCfg    = _NewInstallerCfg()
+Local $mWizard = _NewWizard($mCfg, "Lumen Setup", "Lumen")
+
+_AddIntroPage($mWizard, $mCfg, "This wizard will install Lumen on your computer.")
+_AddPathPage($mWizard, $mCfg, @ProgramFilesDir & "\Lumen", Default)
+_AddReadyPage($mWizard, $mCfg, "Ready to install Lumen.")
+_InitWizard($mWizard)
+</pre>
+
+<h2>Contents</h2>
+<p><a href="concepts.htm">Concepts</a> &mdash; how a wizard is put together: the config map, pages, statuses, and the event hooks that connect your code to it.</p>
+<p><a href="getting-started.htm">Getting Started</a> &mdash; include the library and build a working wizard, step by step.</p>
+<p><a href="functions.htm">Function Reference</a> &mdash; every public function, grouped by what it's for.</p>
+<p><a href="constants.htm">Constants</a> &mdash; layout defaults, enums and error codes used throughout the library.</p>
+
+
+</body>
+</html>

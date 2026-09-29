@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+</HEAD>
+<BODY>
+<UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AddFinishPage">
+    <param name="Local" value="html\functions\_AddFinishPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AddIntroPage">
+    <param name="Local" value="html\functions\_AddIntroPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AddPage">
+    <param name="Local" value="html\functions\_AddPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AddPathPage">
+    <param name="Local" value="html\functions\_AddPathPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AddProgressPage">
+    <param name="Local" value="html\functions\_AddProgressPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AddReadyPage">
+    <param name="Local" value="html\functions\_AddReadyPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AfterLoad_FinishPage">
+    <param name="Local" value="html\functions\_AfterLoad_FinishPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_AfterLoad_ProgressPage">
+    <param name="Local" value="html\functions\_AfterLoad_ProgressPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_CreateButtons">
+    <param name="Local" value="html\functions\_CreateButtons.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_CreateHeader">
+    <param name="Local" value="html\functions\_CreateHeader.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_CreateHeaderSub">
+    <param name="Local" value="html\functions\_CreateHeaderSub.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_CreateHeaderTitle">
+    <param name="Local" value="html\functions\_CreateHeaderTitle.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_CreatePages">
+    <param name="Local" value="html\functions\_CreatePages.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_CreateSeparator">
+    <param name="Local" value="html\functions\_CreateSeparator.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_GetInstallerEvent">
+    <param name="Local" value="html\functions\_GetInstallerEvent.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_GetPageCtrl">
+    <param name="Local" value="html\functions\_GetPageCtrl.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_GetWizardPage">
+    <param name="Local" value="html\functions\_GetWizardPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_HandlerArgs">
+    <param name="Local" value="html\functions\_HandlerArgs.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_InitWizard">
+    <param name="Local" value="html\functions\_InitWizard.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewBtnCaptions">
+    <param name="Local" value="html\functions\_NewBtnCaptions.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewBtnCfg">
+    <param name="Local" value="html\functions\_NewBtnCfg.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewBtnDim">
+    <param name="Local" value="html\functions\_NewBtnDim.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewFontCfg">
+    <param name="Local" value="html\functions\_NewFontCfg.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewInstallerCfg">
+    <param name="Local" value="html\functions\_NewInstallerCfg.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewPage">
+    <param name="Local" value="html\functions\_NewPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewWizard">
+    <param name="Local" value="html\functions\_NewWizard.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_NewWndCfg">
+    <param name="Local" value="html\functions\_NewWndCfg.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_OnClick_SetFolder">
+    <param name="Local" value="html\functions\_OnClick_SetFolder.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_OnClose_FinishPage">
+    <param name="Local" value="html\functions\_OnClose_FinishPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_OnLoad_ReadyPage">
+    <param name="Local" value="html\functions\_OnLoad_ReadyPage.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_ProgressStep">
+    <param name="Local" value="html\functions\_ProgressStep.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_SetEventHandler">
+    <param name="Local" value="html\functions\_SetEventHandler.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_SetInstallerEvent">
+    <param name="Local" value="html\functions\_SetInstallerEvent.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_SetPageBtnOnClickEvent">
+    <param name="Local" value="html\functions\_SetPageBtnOnClickEvent.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="_SetPageCtrl">
+    <param name="Local" value="html\functions\_SetPageCtrl.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Constants">
+    <param name="Local" value="html\constants.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Error Handling">
+    <param name="Local" value="html\concepts.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Event Handlers">
+    <param name="Local" value="html\concepts.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Getting Started">
+    <param name="Local" value="html\getting-started.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Installer Config">
+    <param name="Local" value="html\concepts.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Page Status">
+    <param name="Local" value="html\concepts.htm">
+    </OBJECT>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Page Templates">
+    <param name="Local" value="html\concepts.htm">
+    </OBJECT>
+
+</UL>
+</BODY>
+</HTML>

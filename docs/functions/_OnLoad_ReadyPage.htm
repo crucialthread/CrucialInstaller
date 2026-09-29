@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_OnLoad_ReadyPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_OnLoad_ReadyPage</h1>
+
+<p>OnLoad handler that calls a supplied function and shows its returned text in an info label.</p>
+
+<div class="signature">
+_OnLoad_ReadyPage($idLblInfo, $hUpdateInfoFunc)
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$idLblInfo</td><td>The info label control ID to update, normally one registered on the page with <code>_SetPageCtrl()</code>.</td></tr>
+<tr><td>$hUpdateInfoFunc</td><td>A function that takes no arguments and returns the String to display. Passing <code>Default</code>, or anything else that isn't a valid function, turns this into a no-op.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>-</td><td>No meaningful return value; <code>$idLblInfo</code> is updated in place when <code>$hUpdateInfoFunc</code> is valid.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>The ready page uses this as its <code>OnLoad</code> event automatically whenever
+<code>_AddReadyPage()</code> is given a <code>$hUpdateInfoFunc</code> - that's the built-in way to
+show a dynamic summary (install path, selected components, disk space) that is only known once
+earlier pages have been visited.</p>
+
+<p>It isn't limited to the ready page, though: you can register it the same way on a custom page's
+<code>OnLoad</code> event, with <code>_SetEventHandler()</code> and <code>_HandlerArgs()</code>, to
+get the same "recompute this label every time the page loads" behavior for a page of your own:</p>
+
+<h2>Related</h2>
+<p><a href="_AddReadyPage.htm">_AddReadyPage</a>, <a href="_SetEventHandler.htm">_SetEventHandler</a>, <a href="_HandlerArgs.htm">_HandlerArgs</a></p>
+
+<h2>Example</h2>
+<pre>
+Func _BuildDiskSpaceNote()
+    Return "Free space at " & $g_sInstallPath & ": " & Round(DriveSpaceFree($g_sInstallPath), 1) & " GB"
+EndFunc
+
+; Wiring it up manually on a custom page, the same way _AddReadyPage() does internally
+$mPage.OnLoad = _SetEventHandler(_OnLoad_ReadyPage, _HandlerArgs($idLblInfo, _BuildDiskSpaceNote))
+
+</pre>
+
+</body>
+</html>

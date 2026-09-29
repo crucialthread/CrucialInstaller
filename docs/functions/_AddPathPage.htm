@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_AddPathPage - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_AddPathPage</h1>
+
+<p>Creates a path selection page, adds it to the wizard and returns its page index.</p>
+
+<div class="signature">
+_AddPathPage(ByRef $mWizard, Const ByRef $mCfg, $sPath, $hUpdateSrcFunc, [$sPathLabel = "Install folder:" [, $sPathPageInfo = "" [, $sPathSubHeading = ""]]])
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$mWizard</td><td>The wizard map. Passed by reference; <code>iPathPageId</code> is set on it.</td></tr>
+<tr><td>$mCfg</td><td>The installer config map.</td></tr>
+<tr><td>$sPath</td><td>The initial path shown in the folder input.</td></tr>
+<tr><td>$hUpdateSrcFunc</td><td>Called with the input control ID after the user picks a folder via Browse. Pass <code>Default</code> for no callback.</td></tr>
+<tr><td>$sPathLabel</td><td>[optional] The label text above the folder input. Default is "Install folder:".</td></tr>
+<tr><td>$sPathPageInfo</td><td>[optional] Descriptive text shown at the top of the page.</td></tr>
+<tr><td>$sPathSubHeading</td><td>[optional] The header subtitle shown when this page is active.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>Success</td><td>The page's 1-based index, also stored in <code>$mWizard.iPathPageId</code>.</td></tr>
+<tr><td>Failure</td><td>0, with <code>@error</code> set to <code>$INST_ERR_INVALID_WIZARD</code>, if <code>$mWizard</code> is not a valid, ready wizard.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p>Adds a Browse button wired to <code>_OnClick_SetFolder()</code>, which opens a folder selection dialog and updates the input in place.</p>
+
+<h2>Related</h2>
+<p><a href="_OnClick_SetFolder.htm">_OnClick_SetFolder</a>, <a href="_AddReadyPage.htm">_AddReadyPage</a></p>
+
+<h2>Example</h2>
+<pre>
+Func _OnPathChanged($idInputPath)
+    $g_sInstallPath = GUICtrlRead($idInputPath)
+EndFunc
+
+_AddPathPage($mWizard, $mCfg, @ProgramFilesDir & "\Lumen", _OnPathChanged, _
+    "Install folder:", "Choose the folder where Lumen will be installed.", "Choose Install Location")
+
+</pre>
+
+</body>
+</html>

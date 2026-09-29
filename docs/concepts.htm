@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Concepts - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="index.htm">Welcome</a>
+<a href="concepts.htm">Concepts</a>
+<a href="getting-started.htm">Getting Started</a>
+<a href="functions.htm">Function Reference</a>
+<a href="constants.htm">Constants</a>
+</div>
+
+
+<h1>Concepts</h1>
+
+<h2>How the Solution Works</h2>
+
+<p>A wizard-style installer is mostly the same window shown five or six different ways: a title bar,
+a header describing the current step, a body that changes with each step, and Cancel/Back/Next
+buttons along the bottom whose availability and wording shift as the user moves through the steps.
+Written directly against AutoIt's GUI functions, that window has to be built and rebuilt by hand for
+every project, and the button logic - what's enabled on the first page, what the Next button should
+say on the last one, what happens when the install itself is running - tends to get copied from one
+script to the next with small, easy-to-miss differences each time.</p>
+
+<p>CrucialInstaller turns that window into a small number of building blocks. A script builds one
+configuration map describing sizes, fonts and captions, hands it to <code>_NewWizard()</code> to get
+a window with a header and a button row already in place, and then adds pages to it - either from a
+set of five ready-made templates covering the common steps, or from scratch when a step needs
+something the templates don't cover. Each page declares what kind of step it is (an ordinary page, a
+final confirmation, a busy page, a finishing page), and the wizard reads that declaration to decide
+on its own what the buttons should look like and do, so that logic never has to be written twice.</p>
+
+<p>Underneath the pages, a small event mechanism lets a page or a button run a piece of the caller's
+own code at a specific moment - when the page appears, right after it appears, when it's about to
+close, or when a particular button is clicked - without the wizard's own navigation code needing to
+know what that code does. That's the mechanism a progress page uses to run the actual install
+routine and move on once it's done, and the one a folder-picker page uses to open a browse dialog
+when its button is clicked.</p>
+
+<hr>
+
+<h2>The Installer Config</h2>
+
+<p><code>_NewInstallerCfg()</code> produces the one map, <code>$mCfg</code>, that every other public
+function expects. It is assembled from three smaller pieces - window size and layout
+(<code>_NewWndCfg()</code>), font (<code>_NewFontCfg()</code>), and button dimensions and captions
+(<code>_NewBtnCfg()</code>) - flattened into a single map so that a page template needing, say, a Y
+position from one piece and a caption from another can read both from the same argument:</p>
+
+<pre>
+Local $mCfg = _NewInstallerCfg(_NewWndCfg(640), _NewFontCfg("Segoe UI", 12))
+</pre>
+
+<p>Because it is an ordinary map, a single value can be changed after the fact without rebuilding
+anything - overriding <code>$mCfg.sBtnCaptApply</code> to turn "Install" into "Uninstall" for a
+companion uninstaller is a common example, shown later in Getting Started.</p>
+
+<hr>
+
+<h2>A Page's Status Decides Its Buttons</h2>
+
+<p>Every page is a map, created by <code>_NewPage()</code> and usually added to the wizard through
+one of the <code>_Add*Page()</code> template helpers rather than by hand. Each page carries an
+<code>iStatus</code> value that tells the wizard what kind of step it represents, and the wizard
+uses that value - together with whether the page happens to be first, last, or somewhere in the
+middle - to decide what Cancel, Back and Next should look like the moment the page becomes current:</p>
+
+<ul style="font-size: 12px; line-height: 1.8;">
+<li><b>$eNormalPage.</b> An ordinary step; Next carries its usual caption.</li>
+<li><b>$eProceedPage.</b> The step just before doing the real work; Next switches to the configured Apply/Install caption.</li>
+<li><b>$eProcessingPage.</b> Work is underway; Cancel, Back and Next are all disabled so the user can't interrupt or repeat it.</li>
+<li><b>$eFinishPage.</b> The last step; Next switches to Finish and Cancel/Back are disabled.</li>
+</ul>
+
+<p>None of this needs to be wired up by the calling script - it falls out of picking the right page
+template, or setting <code>iStatus</code> directly on a hand-built page.</p>
+
+<hr>
+
+<h2>Hooking Into a Page's Lifecycle</h2>
+
+<p>A page can react to four moments: <code>OnLoad</code> and <code>AfterLoad</code> as it becomes the
+current page, <code>OnClose</code> as the wizard is about to exit from it, and <code>OnClick</code> on
+any button that isn't Cancel, Back or Next. Each hook is a small map built by
+<code>_SetEventHandler()</code>, pairing a function reference with an optional list of arguments from
+<code>_HandlerArgs()</code>:</p>
+
+<pre>
+$mPage.AfterLoad = _SetEventHandler(_AfterLoad_FinishPage)
+_SetPageBtnOnClickEvent($mPage, $idBtnBrowse, _SetEventHandler(_OnClick_SetFolder, $aArgs))
+</pre>
+
+<p>This is what lets a progress page run an arbitrary install routine on <code>AfterLoad</code> and
+click Next automatically once it returns, and what lets a folder-picker page open a browse dialog
+when its own button is clicked - all without the wizard's navigation loop needing a single line of
+code specific to either one.</p>
+
+<hr>
+
+<h2>Templates, and Building a Page Without One</h2>
+
+<p>The five <code>_Add*Page()</code> functions - intro, path, ready, progress, finish - are what most
+scripts call directly. Each one creates its controls, sets the page's status and subtitle, wires up
+whatever event handler it needs, adds the page to the wizard, and remembers its index on the wizard
+map (<code>$mWizard.iReadyPageId</code>, and so on) so it can be looked up again later. When a step
+doesn't fit any of the five, the same pieces are available individually:
+<code>_NewPage()</code> to create it, ordinary <code>GUICtrlCreate*</code> calls plus
+<code>_SetPageCtrl()</code> to add and register its controls, and <code>_SetPageBtnOnClickEvent()</code>
+to wire up any button on it.</p>
+
+<hr>
+
+<h2>How Failures Are Reported</h2>
+
+<p>Functions that validate their own input - a window handle, a config map, a wizard map, a control
+reference - follow one convention throughout the library: on invalid input they call
+<code>SetError()</code> with one of the <code>$INST_ERR_*</code> codes and return a safe value,
+usually <code>Null</code> or <code>0</code>. Check <code>@error</code> after <code>_NewWizard()</code>
+or any <code>_Add*Page()</code> call rather than assuming it succeeded:</p>
+
+<pre>
+Local $mWizard = _NewWizard($mCfg, "Lumen Setup", "Lumen")
+If @error Then
+    ; $mCfg was not a valid installer config
+    Exit
+EndIf
+</pre>
+
+<p>While a script is still being run directly from the editor (rather than compiled), the same
+failures are also written to the console as a readable message naming the function and the problem,
+which is usually enough to spot a bad config or a stale control ID without attaching a debugger.</p>
+
+<hr>
+
+<p>With the config, page and event pieces above, the <a href="getting-started.htm">Getting Started</a>
+page walks through assembling them into a working installer, end to end.</p>
+
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Constants - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="index.htm">Welcome</a>
+<a href="concepts.htm">Concepts</a>
+<a href="getting-started.htm">Getting Started</a>
+<a href="functions.htm">Function Reference</a>
+<a href="constants.htm">Constants</a>
+</div>
+
+<h1>Constants</h1>
+
+<h2>Window Dimensions</h2>
+<table>
+<tr><td>$WIN_WIDTH</td><td>Default window width in pixels (540).</td></tr>
+<tr><td>$WIN_HEIGHT</td><td>Default window height in pixels (345).</td></tr>
+</table>
+<hr>
+
+<h2>Font</h2>
+<table>
+<tr><td>$FONT_NAME</td><td>Default font family name ("Segoe UI").</td></tr>
+<tr><td>$FONT_SIZE</td><td>Default font point size (11).</td></tr>
+</table>
+<hr>
+
+<h2>Button Dimensions</h2>
+<table>
+<tr><td>$BTN_W</td><td>Default button width in pixels (130).</td></tr>
+<tr><td>$BTN_H</td><td>Default button height in pixels (34).</td></tr>
+<tr><td>$BTN_GAP</td><td>Default horizontal gap between buttons in pixels (10).</td></tr>
+<tr><td>$BTN_Y</td><td>Default Y position of the button row (<code>$WIN_HEIGHT - 48</code>).</td></tr>
+</table>
+<hr>
+
+<h2>Layout Metrics</h2>
+<table>
+<tr><td>$FOOTER_SEP_Y</td><td>Default Y position of the footer separator line (<code>$WIN_HEIGHT - 58</code>).</td></tr>
+<tr><td>$HEADER_H</td><td>Default height of the header band in pixels (70).</td></tr>
+<tr><td>$CONTENT_TOP</td><td>Default Y position where page content begins (<code>$HEADER_H + 10</code>).</td></tr>
+<tr><td>$CONTENT_W</td><td>Default width available to page content (<code>$WIN_WIDTH - 40</code>).</td></tr>
+</table>
+<hr>
+
+<h2>Default Button Captions</h2>
+<table>
+<tr><td>$BTN_CAPTION_NEXT</td><td>Default Next button caption ("Next &gt;").</td></tr>
+<tr><td>$BTN_CAPTION_BACK</td><td>Default Back button caption ("&lt; Back").</td></tr>
+<tr><td>$BTN_CAPTION_CANCEL</td><td>Default Cancel button caption ("Cancel").</td></tr>
+<tr><td>$BTN_CAPTION_FINISH</td><td>Default Next-button caption on the finish page ("Finish").</td></tr>
+<tr><td>$BTN_CAPTION_APPLY</td><td>Default Next-button caption on a ready/proceed page ("Install").</td></tr>
+</table>
+<hr>
+
+<h2>Button Map Keys</h2>
+<table>
+<tr><td>$BTN_CANCEL</td><td>Map key for the Cancel button ID ("idBtnCancel").</td></tr>
+<tr><td>$BTN_BACK</td><td>Map key for the Back button ID ("idBtnBack").</td></tr>
+<tr><td>$BTN_NEXT</td><td>Map key for the Next button ID ("idBtnNext").</td></tr>
+</table>
+<hr>
+
+<h2>Page Navigation Direction (Enum)</h2>
+<table>
+<tr><td>$ePageBack</td><td>Move to the previous page (-1).</td></tr>
+<tr><td>$ePageStay</td><td>Stay on the current page (0).</td></tr>
+<tr><td>$ePageNext</td><td>Move to the next page (1).</td></tr>
+</table>
+<hr>
+
+<h2>Page Position (Enum)</h2>
+<table>
+<tr><td>$eInvalidPage</td><td>The page index does not exist (-1).</td></tr>
+<tr><td>$eSinglePage</td><td>The wizard has exactly one page.</td></tr>
+<tr><td>$eFirstPage</td><td>The first page of a multi-page wizard.</td></tr>
+<tr><td>$eMidPage</td><td>A page between the first and last.</td></tr>
+<tr><td>$eLastPage</td><td>The last page of a multi-page wizard.</td></tr>
+</table>
+<hr>
+
+<h2>Page Type / Status (Enum)</h2>
+<table>
+<tr><td>$eClosePage</td><td>The wizard should close on the next navigation.</td></tr>
+<tr><td>$eNormalPage</td><td>An ordinary page; Next reads its normal caption.</td></tr>
+<tr><td>$eProceedPage</td><td>Next switches to the configured Apply/Install caption (used by the ready page).</td></tr>
+<tr><td>$eProcessingPage</td><td>Cancel, Back and Next are all disabled (used by the progress page).</td></tr>
+<tr><td>$eFinishPage</td><td>Next switches to Finish and Cancel/Back are disabled.</td></tr>
+</table>
+<hr>
+
+<h2>Page Event Aliases (Enum)</h2>
+<table>
+<tr><td>$eOnClosePage</td><td>Alias of <code>$eClosePage</code>, used as an installer event identifier.</td></tr>
+<tr><td>$eOnDefault</td><td>Alias of <code>$eNormalPage</code>.</td></tr>
+<tr><td>$eOnReadyToProceed</td><td>Alias of <code>$eProceedPage</code>.</td></tr>
+<tr><td>$eOnProcessing</td><td>Alias of <code>$eProcessingPage</code>.</td></tr>
+<tr><td>$eOnFinish</td><td>Alias of <code>$eFinishPage</code>.</td></tr>
+</table>
+<hr>
+
+<h2>Event Constants</h2>
+<table>
+<tr><td>$EVENT_CLOSE_PAGE</td><td>Installer event alias of <code>$eOnClosePage</code>, used with <code>_SetInstallerEvent()</code>/<code>_GetInstallerEvent()</code>.</td></tr>
+<tr><td>$EVENT_DEFAULT</td><td>Installer event alias of <code>$eOnDefault</code>.</td></tr>
+<tr><td>$EVENT_READY_TO_PROCEED</td><td>Installer event alias of <code>$eOnReadyToProceed</code>.</td></tr>
+<tr><td>$EVENT_PROCESSING</td><td>Installer event alias of <code>$eOnProcessing</code>.</td></tr>
+<tr><td>$EVENT_FINISH_PROCESS</td><td>Installer event alias of <code>$eOnFinish</code>.</td></tr>
+</table>
+<hr>
+
+<h2>Event Name / Type Keys</h2>
+<table>
+<tr><td>$ONLOAD</td><td>Page map key for the OnLoad event ("OnLoad").</td></tr>
+<tr><td>$AFTERLOAD</td><td>Page map key for the AfterLoad event ("AfterLoad").</td></tr>
+<tr><td>$ONCLOSE</td><td>Page map key for the OnClose event ("OnClose").</td></tr>
+<tr><td>$ONCLICK</td><td>Page map key for a button's OnClick event ("OnClick").</td></tr>
+</table>
+<hr>
+
+<h2>Wizard Control</h2>
+<table>
+<tr><td>$EXIT_WIZARD_SIGNAL</td><td>Signal value returned internally to exit the main wizard loop and delete the GUI (-9).</td></tr>
+<tr><td>$DEFAULT_VERSION</td><td>Default version string shown on the intro page when none is specified ("0.0.1").</td></tr>
+</table>
+<hr>
+
+<h2>Error Codes</h2>
+<table>
+<tr><td>$INST_ERR_INVALID_WIZARD</td><td>The wizard map is missing required keys (1).</td></tr>
+<tr><td>$INST_ERR_INVALID_CFG</td><td>The config map is missing or has invalid values (2).</td></tr>
+<tr><td>$INST_ERR_INVALID_GUI</td><td>The GUI handle is not a valid window (3).</td></tr>
+<tr><td>$INST_ERR_INVALID_CTRL</td><td>The control ID or index is invalid (4).</td></tr>
+<tr><td>$INST_ERR_INVALID_AIMR</td><td>Array replace received invalid parameters (5).</td></tr>
+</table>
+<hr>
+
+<h2>Error Messages</h2>
+<table>
+<tr><td>$INST_ERR_MSG_WIZARD</td><td>Human-readable message for <code>$INST_ERR_INVALID_WIZARD</code>.</td></tr>
+<tr><td>$INST_ERR_MSG_CFG</td><td>Human-readable message for <code>$INST_ERR_INVALID_CFG</code>.</td></tr>
+<tr><td>$INST_ERR_MSG_GUI</td><td>Human-readable message for <code>$INST_ERR_INVALID_GUI</code>.</td></tr>
+<tr><td>$INST_ERR_MSG_CTRL</td><td>Human-readable message for <code>$INST_ERR_INVALID_CTRL</code>.</td></tr>
+<tr><td>$INST_ERR_MSG_AIMR</td><td>Human-readable message for <code>$INST_ERR_INVALID_AIMR</code>.</td></tr>
+<tr><td>$INST_ERR_MSG_UNKNOWN</td><td>Fallback message used for an unrecognized error code.</td></tr>
+</table>
+
+
+</body>
+</html>

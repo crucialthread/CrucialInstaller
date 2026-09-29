@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Getting Started - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="index.htm">Welcome</a>
+<a href="concepts.htm">Concepts</a>
+<a href="getting-started.htm">Getting Started</a>
+<a href="functions.htm">Function Reference</a>
+<a href="constants.htm">Constants</a>
+</div>
+
+<h1>Getting Started</h1>
+
+<h2>Usage</h2>
+
+<p>If you installed CrucialInstaller via the provided installer, all files are placed in an AutoIt's include directory and can be referenced from any project:</p>
+
+<div class="signature">#include &lt;CrucialInstaller.au3&gt;</div>
+
+<p>If you placed the files manually rather than using the installer, use the quoted form with a relative or absolute path:</p>
+
+<div class="signature">#include "CrucialInstaller.au3"</div>
+
+<hr>
+
+<h2>Anatomy of a Wizard</h2>
+
+<p>Every wizard built with CrucialInstaller follows the same four-step shape, regardless of how many or which pages it uses.</p>
+
+<h3>1. Create a config</h3>
+<p>Build the installer config map with <code>_NewInstallerCfg()</code>. Pass overrides for window, font or button settings, or take every default.</p>
+<pre>
+Local $mCfg = _NewInstallerCfg()
+</pre>
+
+<h3>2. Create a wizard</h3>
+<p>Create the wizard window, header and buttons with <code>_NewWizard()</code>, giving it the config, a window title and a header title.</p>
+<pre>
+Local $mWizard = _NewWizard($mCfg, "Aurora Setup", "Aurora")
+</pre>
+
+<h3>3. Add pages</h3>
+<p>Add one or more pages with the <code>_Add*Page()</code> template helpers, in the order they should appear.</p>
+<pre>
+_AddIntroPage($mWizard, $mCfg, "This wizard will install Aurora on your computer.")
+_AddPathPage($mWizard, $mCfg, $g_sInstallPath, _OnInstallPathChanged)
+_AddReadyPage($mWizard, $mCfg, "", "Ready to Install", _BuildInstallSummary)
+_AddProgressPage($mWizard, $mCfg, _InstallAurora)
+</pre>
+
+<h3>4. Start the wizard</h3>
+<p>Hand control to the wizard with <code>_InitWizard()</code>. This call blocks until the user finishes, cancels, or closes the window.</p>
+<pre>
+_InitWizard($mWizard)
+</pre>
+
+<hr>
+
+<h2>Complete Worked Example</h2>
+
+<p>The following script installs Aurora, a small AutoIt library, so that it is available from any project via <code>#include &lt;Aurora.au3&gt;</code>. It detects the AutoIt install directory from the registry, tells a fresh install from an upgrade of one already present, lets the user pick where the library's help file and uninstaller go, shows a live summary of what it's about to do, copies files with a visible progress bar, and registers the include path so AutoIt can find the library afterward.</p>
+
+<h3>AuroraInstaller.au3</h3>
+<pre>
+#include "CrucialInstaller.au3"
+
+Global Const $REG_AUTOIT_KEY_WOW = "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\AutoIt v3\AutoIt"
+Global Const $REG_AUTOIT_KEY     = "HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt"
+Global Const $REG_AUTOIT_INCLUDE = "HKEY_CURRENT_USER\Software\AutoIt v3\AutoIt"
+Global Const $REG_AURORA_KEY     = "HKEY_LOCAL_MACHINE\SOFTWARE\Aurora"
+
+Global $g_sAutoItDir   = ""
+Global $g_sIncludePath = ""
+Global $g_sInstallPath = ""
+Global $g_bIsUpgrade   = False
+
+; Finds the AutoIt install directory and derives the include/install paths from it.
+Func _DetectPaths()
+    $g_sAutoItDir = RegRead($REG_AUTOIT_KEY_WOW, "InstallDir")
+    If @error Then $g_sAutoItDir = RegRead($REG_AUTOIT_KEY, "InstallDir")
+    If @error Then $g_sAutoItDir = "C:\Program Files (x86)\AutoIt3"
+
+    $g_sIncludePath = $g_sAutoItDir & "\Include\Vendor"
+    $g_sInstallPath = $g_sAutoItDir & "\Aurora"
+EndFunc
+
+; Looks for a prior install record and, if found, reuses its install folder and flags an upgrade.
+Func _CheckExistingInstall()
+    Local $sVersion = RegRead($REG_AURORA_KEY, "Version")
+    $g_bIsUpgrade = Not @error And $sVersion &lt;&gt; ""
+
+    If $g_bIsUpgrade Then
+        Local $sExistingPath = RegRead($REG_AURORA_KEY, "InstallPath")
+        If Not @error And FileExists($sExistingPath) Then $g_sInstallPath = $sExistingPath
+    EndIf
+EndFunc
+
+Func _OnInstallPathChanged($idInputPath)
+    $g_sInstallPath = GUICtrlRead($idInputPath)
+EndFunc
+
+Func _BuildInstallSummary()
+    Local $sText = ""
+    $sText &= " - Copy Aurora.au3 to: " & $g_sIncludePath & @CRLF
+    $sText &= " - Copy Aurora.chm to: " & $g_sInstallPath & @CRLF
+    $sText &= " - Register the include path with AutoIt"
+    Return $sText
+EndFunc
+
+Func _InstallAurora($idLblProgress, $idProgressbar)
+    Local $iStep = 0, $iSteps = 4
+
+    _ProgressStep($idLblProgress, $idProgressbar, $iStep, $iSteps, "Creating folders...")
+    DirCreate($g_sIncludePath)
+    DirCreate($g_sInstallPath)
+    $iStep += 1
+
+    _ProgressStep($idLblProgress, $idProgressbar, $iStep, $iSteps, "Copying Aurora.au3...")
+    If Not FileCopy(@ScriptDir & "\lib\Aurora.au3", $g_sIncludePath & "\Aurora.au3", 9) Then Return False
+    $iStep += 1
+
+    _ProgressStep($idLblProgress, $idProgressbar, $iStep, $iSteps, "Copying Aurora.chm...")
+    If Not FileCopy(@ScriptDir & "\Aurora.chm", $g_sInstallPath & "\Aurora.chm", 9) Then Return False
+    $iStep += 1
+
+    _ProgressStep($idLblProgress, $idProgressbar, $iStep, $iSteps, "Registering include path...")
+    Local $sExisting = RegRead($REG_AUTOIT_INCLUDE, "Include")
+    If @error Then $sExisting = ""
+    If Not StringInStr($sExisting, $g_sIncludePath) Then
+        Local $sNew = ($sExisting = "") ? $g_sIncludePath : $sExisting & ";" & $g_sIncludePath
+        RegWrite($REG_AUTOIT_INCLUDE, "Include", "REG_SZ", $sNew)
+    EndIf
+    RegWrite($REG_AURORA_KEY, "Version", "REG_SZ", "1.0.0")
+    RegWrite($REG_AURORA_KEY, "InstallPath", "REG_SZ", $g_sInstallPath)
+
+    Return True
+EndFunc
+
+Func _BuildAndRunInstaller()
+    _DetectPaths()
+    _CheckExistingInstall()
+
+    Local $mCfg = _NewInstallerCfg()
+    Local $mWizard = _NewWizard($mCfg, "Aurora Setup", "Aurora")
+
+    Local $sIntroText = $g_bIsUpgrade _
+        ? "This wizard will upgrade Aurora to the latest version." _
+        : "This wizard will install Aurora, making it available from any project via:" & @CRLF & @CRLF & _
+          " #include &lt;Aurora.au3&gt;"
+    Local $sIntroSubHeading = ($g_bIsUpgrade ? "Upgrading " : "Welcome to ") & "Aurora Setup"
+    _AddIntroPage($mWizard, $mCfg, $sIntroText, $sIntroSubHeading)
+
+    _AddPathPage($mWizard, $mCfg, $g_sInstallPath, _OnInstallPathChanged, _
+        "Install folder:", "Aurora.chm and the uninstaller will be copied to the folder below.")
+
+    _AddReadyPage($mWizard, $mCfg, "", "Ready to Install", _BuildInstallSummary)
+
+    Local $iProgress = _AddProgressPage($mWizard, $mCfg, _InstallAurora, "Aurora could not be installed.")
+    Local $mProgressPage = _GetWizardPage($mWizard, $iProgress)
+    Local $idLblProgress = _GetPageCtrl($mProgressPage, "LblProgress")
+    Local $idProgressbar = _GetPageCtrl($mProgressPage, "Progressbar")
+
+    _AddFinishPage($mWizard, $mCfg, $idLblProgress, $idProgressbar, _
+        "Aurora has been installed successfully.", $g_sInstallPath & "\Aurora.chm")
+
+    _InitWizard($mWizard)
+EndFunc
+
+_BuildAndRunInstaller()
+
+</pre>
+
+<h3>What You'll See</h3>
+<p>Running the script opens the wizard and steps through five pages:</p>
+<ol>
+<li><b>Welcome.</b> Intro text that reads differently depending on <code>$g_bIsUpgrade</code> - "install" the first time, "upgrade" if a prior version is found in the registry. Next is enabled; Back is disabled since this is the first page.</li>
+<li><b>Install folder.</b> An editable path input, pre-filled with the detected (or previously recorded) install folder, plus a Browse button. Changing it updates <code>$g_sInstallPath</code> through <code>_OnInstallPathChanged()</code>.</li>
+<li><b>Ready to Install.</b> A summary label showing <code>_BuildInstallSummary()</code>'s current text - it re-reads <code>$g_sIncludePath</code>/<code>$g_sInstallPath</code> every time the page loads, so it always reflects what was chosen on the previous page. Next now reads "Install".</li>
+<li><b>Installing.</b> A status label and a progress bar. Cancel, Back and Next are disabled the moment this page appears; <code>_InstallAurora()</code> runs automatically, advancing the bar through four steps, then the wizard moves on by itself - or stops and shows the failure message if any step fails.</li>
+<li><b>Finish.</b> A completion message and an "Open documentation" checkbox, reusing the same label and progress bar controls from the Installing page. Next now reads "Finish"; checking the box opens Aurora.chm when the wizard closes.</li>
+</ol>
+
+
+<hr>
+
+
+<h2>Adding a Fully Custom Page</h2>
+
+<p>When none of the ready-made templates fit, build a page from scratch with <code>_NewPage()</code>,
+add controls with the normal <code>GUICtrlCreate*</code> functions, register them with
+<code>_SetPageCtrl()</code>, wire up any button clicks with <code>_SetPageBtnOnClickEvent()</code>,
+then add the page with <code>_AddPage()</code>:</p>
+
+<pre>
+Local $mPage = _NewPage("Choose components", $eNormalPage)
+
+GUISwitch($mWizard.hWin)
+Local $idChkDocs = GUICtrlCreateCheckbox("Install help file", 15, $mCfg.iContentTop, 200, 24)
+_SetPageCtrl($mPage, $idChkDocs, "ChkDocs")
+
+_AddPage($mWizard.mPages, $mPage)
+</pre>
+
+<hr>
+
+<h2>Handling Install Failure</h2>
+
+<p>The function passed to <code>_AddProgressPage()</code> must return a Boolean. Returning
+<code>False</code> shows the configured failure message and closes the wizard on the next
+navigation instead of advancing to the finish page - this is why <code>_InstallAurora()</code>
+in the worked example above checks the result of each <code>FileCopy()</code> call:</p>
+
+<pre>
+Func _InstallAurora($idLblProgress, $idProgressbar)
+    If Not FileCopy(@ScriptDir & "\lib\Aurora.au3", $g_sIncludePath & "\Aurora.au3", 9) Then Return False
+    Return True
+EndFunc
+</pre>
+
+<hr>
+
+<h2>Building a Matching Uninstaller</h2>
+
+<p>An uninstaller is usually its own small script, built the same way as the installer but with
+fewer pages - typically just Welcome, Ready, Progress and Finish, skipping the path page since the
+install location is already known (it can be read back from the same registry key the installer
+wrote it to). Overriding a single caption on the config map before creating the wizard is enough to
+turn the Ready page's "Install" button into "Uninstall":</p>
+
+<pre>
+Local $mCfg = _NewInstallerCfg()
+$mCfg.sBtnCaptApply = "Uninstall"
+
+Local $g_sInstallPath = RegRead($REG_AURORA_KEY, "InstallPath")
+
+Local $mWizard = _NewWizard($mCfg, "Aurora Uninstall", "Aurora")
+_AddIntroPage($mWizard, $mCfg, "This wizard will remove Aurora from your computer.")
+_AddReadyPage($mWizard, $mCfg, "", "Ready to uninstall", _BuildUninstallSummary)
+_AddProgressPage($mWizard, $mCfg, _UninstallAurora, "Uninstall failed.")
+</pre>
+
+
+<hr>
+
+<h2>Tips</h2>
+
+<ul style="font-size: 12px; line-height: 1.8;">
+<li><b>Reuse the config.</b> Build <code>$mCfg</code> once per wizard and pass the same map to every <code>_Add*Page()</code> call - do not rebuild it per page.</li>
+<li><b>Default means "no callback".</b> Optional handler parameters such as <code>$hUpdateSrcFunc</code> and <code>$hUpdateReadyPageFunc</code> accept <code>Default</code> to skip the callback entirely.</li>
+<li><b>Reuse progress/finish controls.</b> Pass the progress page's label and progress bar control IDs straight into <code>_AddFinishPage()</code> - the finish page is designed to reuse them.</li>
+<li><b>Override one caption instead of rebuilding the config.</b> A config map is just a map - change a single field like <code>$mCfg.sBtnCaptApply</code> after <code>_NewInstallerCfg()</code> instead of calling <code>_NewBtnCaptions()</code> again.</li>
+<li><b>Check @error after wizard calls.</b> <code>_NewWizard()</code> and every <code>_Add*Page()</code> helper set <code>@error</code> on failure - check it, especially around <code>_NewWizard()</code>, before adding pages.</li>
+
+</ul>
+
+</body>
+</html>

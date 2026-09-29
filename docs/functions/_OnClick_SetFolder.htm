@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>_OnClick_SetFolder - CrucialInstaller</title>
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+</head>
+<body>
+<div class="topnav">
+<a href="../index.htm">Welcome</a>
+<a href="../concepts.htm">Concepts</a>
+<a href="../getting-started.htm">Getting Started</a>
+<a href="../functions.htm">Function Reference</a>
+<a href="../constants.htm">Constants</a>
+</div>
+
+<h1>Function Reference</h1>
+<hr>
+<h1>_OnClick_SetFolder</h1>
+
+<p>OnClick handler that opens a folder selection dialog and updates an input with the result.</p>
+
+<div class="signature">
+_OnClick_SetFolder($idInputPath, $sPathLabel, $hUpdateSrcFunc)
+</div>
+
+<h2>Parameters</h2>
+<table>
+<tr><td>$idInputPath</td><td>The input control ID to update with the selected folder. The dialog opens pre-populated with its current value.</td></tr>
+<tr><td>$sPathLabel</td><td>Label text used to build the folder selector dialog's title ("Select " &amp; $sPathLabel).</td></tr>
+<tr><td>$hUpdateSrcFunc</td><td>[optional-by-caller] A function called with <code>$idInputPath</code> after the input is updated, or <code>Default</code>/invalid to skip.</td></tr>
+
+</table>
+
+<h2>Return Value</h2>
+<table>
+<tr><td>-</td><td>No meaningful return value. Does nothing if the folder dialog is cancelled.</td></tr>
+
+</table>
+
+<h2>Remarks</h2>
+<p><code>_AddPathPage()</code> wires this up on the path page's Browse button
+automatically. It isn't limited to the path page, though: you can register it the same way on a
+Browse button of your own, with <code>_SetPageBtnOnClickEvent()</code> and
+<code>_HandlerArgs()</code>, to reuse the same folder-picker behavior on a custom page:</p>
+
+<h2>Related</h2>
+<p><a href="_AddPathPage.htm">_AddPathPage</a>, <a href="_SetPageBtnOnClickEvent.htm">_SetPageBtnOnClickEvent</a>, <a href="_HandlerArgs.htm">_HandlerArgs</a></p>
+
+<h2>Example</h2>
+<pre>
+Func _OnPathChanged($idInputPath)
+    $g_sInstallPath = GUICtrlRead($idInputPath)
+EndFunc
+
+Local $idBtnBrowse = GUICtrlCreateButton("Browse...", 300, 150, 80, 30)
+_SetPageCtrl($mPage, $idBtnBrowse, "BtnBrowse")
+_SetPageBtnOnClickEvent($mPage, $idBtnBrowse, _SetEventHandler(_OnClick_SetFolder, _
+    _HandlerArgs($idInputPath, "Install folder:", _OnPathChanged)))
+
+</pre>
+
+</body>
+</html>
